@@ -10,6 +10,7 @@ function drawKind(g,pl){
   else if(k==="desk"){g.strokeRect(x-100,y-24,200,48);g.beginPath();g.moveTo(x-80,y-24);g.lineTo(x-80,y+40);g.moveTo(x+80,y-24);g.lineTo(x+80,y+40);g.stroke();g.fillText("MEMBERS",x,y-36);}
   else if(k==="lounge"){g.strokeRect(x-120,y-50,240,100);g.beginPath();g.moveTo(x-80,y+10);g.lineTo(x+80,y+10);g.stroke();}
   else if(k==="star"){g.beginPath();for(let i=0;i<5;i++){const a=-Math.PI/2+i*2*Math.PI/5;const a2=a+Math.PI/5;g.lineTo(x+Math.cos(a)*36,y+Math.sin(a)*36);g.lineTo(x+Math.cos(a2)*16,y+Math.sin(a2)*16);}g.closePath();g.stroke();}
+  else if(k==="frame"){g.lineWidth=5;g.strokeRect(x-90,y-70,180,140);g.lineWidth=2;g.strokeRect(x-78,y-58,156,116);g.beginPath();g.moveTo(x-40,y+20);g.lineTo(x-10,y-20);g.lineTo(x+20,y+8);g.lineTo(x+50,y-30);g.stroke();}
   else if(k==="origin"){g.beginPath();g.moveTo(x-80,y);g.lineTo(x+80,y);g.moveTo(x,y-80);g.lineTo(x,y+80);g.stroke();g.fillText("0",x+10,y-10);}
   else if(k==="triangles"){for(const [ox,oy,s] of [[-70,20,50],[10,-30,60],[80,24,44]]){g.beginPath();g.moveTo(x+ox,y+oy);g.lineTo(x+ox+s,y+oy);g.lineTo(x+ox+s/2,y+oy-s);g.closePath();g.stroke();}}
   else if(k==="fountain"){for(const s of [26,48,68]){g.beginPath();g.arc(x,y,s,0,Math.PI*2);g.stroke();}g.font="28px Comic Sans MS, cursive";g.fillText("π",x,y+10);}
@@ -29,7 +30,7 @@ function drawKind(g,pl){
 function bakePaper(){
   const off=document.createElement("canvas");off.width=state.world.w;off.height=state.world.h;const g=off.getContext("2d");
   const page=state.me.page;
-  const paper=page==="graph"?"#eef3e6":page==="comic"?"#f7f1dc":page==="pocket"?"#edd9a6":page==="back"?"#ead9b8":page==="shop"?"#f3e6c8":page==="club"?"#f6e2a8":page==="margin"?"#e7eef6":"#f4eed8";
+  const paper=page==="graph"?"#eef3e6":page==="comic"?"#f7f1dc":page==="pocket"?"#edd9a6":page==="back"?"#ead9b8":page==="shop"?"#f3e6c8":page==="club"?"#f6e2a8":page==="margin"?"#e7eef6":page==="gallery"?"#f3ead4":"#f4eed8";
   g.fillStyle=paper;g.fillRect(0,0,off.width,off.height);
   if(page==="graph"){
     g.strokeStyle="#c5d4b8";g.lineWidth=1;
@@ -49,6 +50,10 @@ function bakePaper(){
     for(let y=40;y<off.height;y+=28){g.beginPath();g.moveTo(160,y);g.lineTo(off.width,y);g.stroke();}
     g.strokeStyle="#6b82a8";g.lineWidth=2;g.beginPath();g.moveTo(160,0);g.lineTo(160,off.height);g.stroke();
     g.fillStyle="#1b1b1b";g.font="22px Comic Sans MS, cursive";g.fillText("MARGIN",40,80);
+  } else if(page==="gallery"){
+    g.fillStyle="#1b1b1b";g.font="28px Comic Sans MS, cursive";g.fillText("GALLERY — hang a note with /mark",140,58);
+    g.strokeStyle="#d7c49a";g.lineWidth=8;
+    g.strokeRect(80,120,off.width-160,off.height-240);
   } else if(page==="pocket"){
     g.fillStyle="#d7b36a";g.fillRect(0,0,120,off.height);g.strokeStyle="#b0893a";g.lineWidth=3;g.beginPath();g.moveTo(120,0);g.lineTo(120,off.height);g.stroke();
   } else {
