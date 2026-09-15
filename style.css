@@ -37,7 +37,7 @@ input[type=text], #chat {
   background:#fffdf6;
 }
 .row { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 4px; }
-.swatch, .hat, .bar button, .play, #pages button, #roster button, #dest button, #shop button {
+.swatch, .hat, .bar button, .play, #pages button, #roster button, #dest button, #shop button, #member-box button, #member-badge {
   border:2px solid #1b1b1b;
   background:#fff;
   cursor:pointer;
@@ -56,10 +56,9 @@ input[type=text], #chat {
   background:#ffd56a;
   box-shadow:4px 4px 0 #1b1b1b;
 }
-.play:active { transform:translate(2px,2px); box-shadow:2px 2px 0 #1b1b1b; }
 canvas#game { display:block; width:100vw; height:100vh; background:#f4eed8; touch-action:none; }
 #hud { pointer-events:none; }
-#hint, #who, #here, #ink, #chatlog, #look, .bar, #pages, #roster, #mini, #dest, #shop { pointer-events:auto; }
+#hint, #who, #here, #ink, #chatlog, #look, .bar, #pages, #roster, #mini, #dest, #shop, #member-box, #member-badge { pointer-events:auto; }
 #hint, #who, #here, #ink {
   position:absolute;
   left:16px;
@@ -70,6 +69,12 @@ canvas#game { display:block; width:100vw; height:100vh; background:#f4eed8; touc
 #hint { top:12px; max-width:52vw; }
 #who { top:52px; font-size:14px; }
 #ink { left:auto; right:16px; top:16px; background:#ffd56a; }
+#member-badge {
+  position:absolute; right:16px; top:56px;
+  padding:4px 10px; text-transform:uppercase; letter-spacing:.06em; font-size:12px;
+}
+#member-badge[data-tier="plus"] { background:#c7e6ff; }
+#member-badge[data-tier="patron"] { background:#ffd56a; }
 #here { top:86px; font-size:14px; max-width:46vw; }
 #pages { position:absolute; left:16px; top:126px; display:flex; gap:6px; flex-wrap:wrap; }
 #pages button { padding:4px 8px; background:#fffdf6; }
@@ -85,15 +90,15 @@ canvas#game { display:block; width:100vw; height:100vh; background:#f4eed8; touc
 }
 #roster button { display:block; width:100%; text-align:left; margin:3px 0; padding:3px 6px; }
 #chatlog {
-  position:absolute; right:16px; top:56px; width:min(280px,42vw); max-height:32vh; overflow:auto;
+  position:absolute; right:16px; top:92px; width:min(280px,42vw); max-height:28vh; overflow:auto;
   background:rgba(244,238,216,.9); border:2px solid #1b1b1b; padding:8px 10px; font-size:14px;
 }
-#shop {
+#shop, #member-box {
   display:none; position:absolute; right:16px; bottom:78px; width:min(280px,42vw); max-height:36vh; overflow:auto;
   background:rgba(244,238,216,.96); border:2px solid #1b1b1b; padding:10px;
 }
-#shop.show { display:block; }
-#shop button { display:block; width:100%; text-align:left; margin:5px 0; padding:6px 8px; }
+#shop.show, #member-box.show { display:block; }
+#shop button, #member-box button { display:block; width:100%; text-align:left; margin:5px 0; padding:6px 8px; }
 #shop button:disabled { opacity:.55; cursor:default; }
 .bar {
   position:absolute; left:16px; right:16px; bottom:16px;
