@@ -6,7 +6,6 @@
   <meta name="theme-color" content="#f4eed8"/>
   <title>Notebook Sticks</title>
   <meta name="description" content="A playable stick-figure social sketchbook. Walk the pages, collect stamps, spend ink."/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect fill='%23f4eed8' width='64' height='64'/><circle cx='32' cy='16' r='7' fill='none' stroke='%231b1b1b' stroke-width='3'/><path d='M32 24v18M22 30h20M24 54l8-12 8 12' fill='none' stroke='%231b1b1b' stroke-width='3' stroke-linecap='round'/></svg>"/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
@@ -14,7 +13,7 @@
     <div class="sheet">
       <p class="kicker">a shared sketchbook</p>
       <h1>Notebook Sticks</h1>
-      <p class="sub">Walk places for stamps. Talk for ink. F throws a paper airplane. Open a second tab to meet yourself.</p>
+      <p class="sub">Walk places for stamps. Talk for ink. F throws a paper airplane. Members unlock Club and Margin.</p>
       <canvas id="preview" width="180" height="160"></canvas>
       <label for="name">Name</label>
       <input id="name" type="text" maxlength="16" placeholder="Doodle" autocomplete="off" autofocus/>
@@ -23,7 +22,7 @@
       <label>Hat</label>
       <div class="row" id="hats"></div>
       <button class="play" id="go" type="button">Open the notebook</button>
-      <p class="fine">Saves in this browser. Runs on GitHub Pages. No server required.</p>
+      <p class="fine">Saves in this browser. /member PLUS or /member PATRON</p>
     </div>
   </div>
 
@@ -32,6 +31,7 @@
     <div id="hint">Visit scribbles for stamps. F = airplane. Shop spends ink.</div>
     <div id="who"></div>
     <div id="ink">40 ink</div>
+    <button id="member-badge" type="button" data-tier="free">free</button>
     <div id="here">Walk the page.</div>
     <div id="pages"></div>
     <canvas id="mini" width="160" height="104"></canvas>
@@ -39,12 +39,14 @@
     <div id="roster"></div>
     <div id="chatlog"></div>
     <div id="shop"></div>
+    <div id="member-box"></div>
     <div class="bar">
       <button id="look-toggle" type="button">Look</button>
+      <button id="member-toggle" type="button">Member</button>
       <button id="pose-wave" type="button">Wave</button>
       <button id="pose-sit" type="button">Sit</button>
       <button id="pose-dance" type="button">Dance</button>
-      <input id="chat" maxlength="140" placeholder="say hi · ! shout · /mark note · F plane"/>
+      <input id="chat" maxlength="140" placeholder="say hi · /member PLUS · F plane"/>
     </div>
     <div id="look">
       <b>Change doodle</b>
@@ -53,11 +55,13 @@
       <div class="row" id="look-extras"></div>
     </div>
   </div>
+  <script src="membership.js"></script>
   <script src="mock-net.js"></script>
   <script src="world.js"></script>
   <script src="engine.js"></script>
   <script src="shop.js"></script>
   <script src="fun.js"></script>
   <script src="game.js"></script>
+  <script src="patch.js"></script>
 </body>
 </html>
