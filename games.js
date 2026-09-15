@@ -44,8 +44,14 @@
     if (iWon) {
       log("You won. +8 ink.");
       if (window.addPop) addPop(state.me.x, state.me.y - 80, "+8");
-    } else if (draw) log("Draw. Nobody erased the page.");
-    else log("Lost that one.");
+      if (window.Sfx) Sfx.win();
+    } else if (draw) {
+      log("Draw. Nobody erased the page.");
+      if (window.Sfx) Sfx.mark();
+    } else {
+      log("Lost that one.");
+      if (window.Sfx) Sfx.lose();
+    }
     if (typeof net === "function" && iWon) net({ type: "gamewin" });
     render();
   }
@@ -137,6 +143,7 @@
     if (s.turn !== myId()) { log("Not your mark."); return; }
     if (s.board[index]) return;
     s.board[index] = s.hostId === myId() ? "x" : "o";
+    if (window.Sfx) Sfx.mark();
     const w = winnerOf(s.board);
     if (w) finish(s, w === "draw" ? "draw" : w);
     else s.turn = s.turn === s.hostId ? s.guestId : s.hostId;
@@ -148,6 +155,7 @@
     const s = Minigames.session;
     if (!s || s.kind !== "rps" || s.status !== "playing") return;
     if (s.hostId === myId()) s.hostPick = pick; else s.guestPick = pick;
+    if (window.Sfx) Sfx.click();
     if (s.npc && !s.guestPick) s.guestPick = RPS[Math.floor(Math.random() * 3)];
     if (s.hostPick && s.guestPick) {
       if (s.hostPick === s.guestPick) finish(s, "draw");
@@ -184,12 +192,12 @@
     const vs = s.guestName || "waiting…";
     let html = "<b>" + (s.kind === "rps" ? "Rock paper scissors" : "Tic-tac-toe") + "</b>";
     html += "<div class='sub'>" + s.hostName + " vs " + vs;
-    if (s.status === "playing") html += " · " + (s.turn === myId() ? "your turn" : "their turn");
+    if (s.status === "playing") html += " \u00b7 " + (s.turn === myId() ? "your turn" : "their turn");
     if (s.status === "done") {
       const winName = s.winner === "draw" ? "draw" :
         s.winner === "x" || s.winner === "host" ? s.hostName :
         s.winner === "o" || s.winner === "guest" ? s.guestName : s.winner;
-      html += " · " + winName;
+      html += " \u00b7 " + winName;
     }
     html += "</div>";
     if (s.kind === "ttt") {
@@ -201,11 +209,13 @@
       html += "</div>";
     } else {
       html += "<div class='rps-row'>";
-      ["rock", "paper", "scissors"].forEach((p) => { html += "<button data-rps='" + p + "'>" + p + "</button>"; });
+      ["\u270a rock", "\u270b paper", "\u270c\ufe0f scissors"].forEach((label, i) => {
+        html += "<button data-rps='" + RPS[i] + "'>" + label + "</button>";
+      });
       html += "</div>";
       if (s.hostPick || s.guestPick) {
-        html += "<div class='sub'>" + s.hostName + ": " + (s.hostPick || "…") + " · " + (s.guestName || "?") + ": " +
-          (s.hostPick && s.guestPick ? (s.guestPick || "…") : "hidden") + "</div>";
+        html += "<div class='sub'>" + s.hostName + ": " + (s.hostPick || "\u2026") + " \u00b7 " + (s.guestName || "?") + ": " +
+          (s.hostPick && s.guestPick ? (s.guestPick || "\u2026") : "hidden") + "</div>";
       }
     }
     html += "<button data-leave='1'>Leave table</button>";
