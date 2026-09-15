@@ -12,14 +12,17 @@ function owned(kind, id) {
 function renderShop() {
   const box = document.getElementById("shop");
   if (!box) return;
-  const atShop = state.me.page === "shop" || (nearestPlace() && nearestPlace().id === "counter");
+  const near = nearestPlace();
+  const atShop = state.me.page === "shop" || state.me.page === "club" || (near && (near.id === "counter" || near.id === "desk"));
   box.classList.toggle("show", atShop);
   if (!atShop) return;
   const items = state.catalog || [];
   const stamps = (state.wallet && state.wallet.stamps) ? state.wallet.stamps.length : 0;
-  box.innerHTML = "<b>Ink shop</b><div class='sub'>"+stamps+" stamps collected. Talk. Spend.</div>" + items.map((it) => {
+  const member = (state.wallet && state.wallet.member) || window.__nbMember || "free";
+  box.innerHTML = "<b>Ink shop</b><div class='sub'>"+stamps+" stamps · "+member+"</div>" + items.map((it) => {
     const have = owned(it.kind, it.id);
-    return `<button data-kind="${it.kind}" data-id="${it.id}" ${have ? "disabled" : ""}>${it.name} · ${have ? "yours" : it.cost + " ink"}</button>`;
+    const tag = it.member ? " · "+it.member : "";
+    return `<button data-kind="${it.kind}" data-id="${it.id}" ${have ? "disabled" : ""}>${it.name}${tag} · ${have ? "yours" : it.cost + " ink"}</button>`;
   }).join("");
 }
 function bindShop() {
@@ -34,8 +37,11 @@ function bindShop() {
 function applyWallet(w) {
   if (!w) return;
   state.wallet = w;
+  if (w.member) window.__nbMember = w.member;
   renderInk();
   renderShop();
+  const badge = document.getElementById("member-badge");
+  if (badge && w.member) { badge.textContent = w.member; badge.dataset.tier = w.member; }
 }
 function extraPath(g, extra, sit) {
   if (!extra || extra === "none") return;
@@ -55,5 +61,7 @@ function extraPath(g, extra, sit) {
     g.stroke();
   } else if (extra === "bowtie") {
     g.moveTo(-8, -40 + sit); g.lineTo(0, -36 + sit); g.lineTo(8, -40 + sit); g.lineTo(0, -32 + sit); g.closePath(); g.stroke();
+  } else if (extra === "pin") {
+    g.arc(10, -28 + sit, 3.5, 0, Math.PI * 2); g.stroke();
   }
 }
