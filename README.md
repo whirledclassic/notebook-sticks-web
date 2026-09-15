@@ -2,7 +2,7 @@
 
 A playable stick-figure sketchbook you can ship from GitHub.
 
-Walk the pages. Collect stamps. Spend ink. Throw paper airplanes. Open a second browser tab and the *other tab's* doodle shows up — you should only ever see one of yourself in the tab you are playing.
+Walk the pages. Collect stamps. Spend ink. Sit at a table and play tic-tac-toe. Add friends. Your doodle saves in this browser (optional PIN). Open a second tab to play against yourself — you should only ever see one of yourself in the tab you are playing.
 
 **Play it live:** [whirledclassic.github.io/sticks](https://whirledclassic.github.io/sticks/) · [Pages build](https://whirledclassic.github.io/notebook-sticks-web/)
 
@@ -35,20 +35,46 @@ Then visit http://localhost:8080
 | `/member PATRON` | Unlock Patron (Club + Margin) |
 | F | Paper airplane |
 | Wave / Sit / Dance | Poses |
+| E / Interact | Talk, high-five, friend, challenge |
+| Q / Friends | Friend list + save file |
 | Look | Change owned ink / hats |
 | Member | Buy a tier with ink |
 | Shop / Club / desk | Spend ink |
+| Sound on / off | Mute sketchbook SFX (saves in this browser) |
+| `/friend Name` | Add a friend |
+| `/w Name hi` | Whisper |
+| `/gift Name 5` | Send ink |
 
 Visit a named scribble once for a **stamp** and +3 ink (Club / Margin stamps give +8). Wallet saves under your name in this browser.
 
 Pages: Cover, Graph, Comic, Pocket, Gallery, Back, Shop. **Club** needs Plus. **Margin** needs Patron.
+
+## Sound
+
+Footsteps, page turns, stamps, chat, planes, high-fives, shop buys, and table-game wins are tiny Web Audio beeps — no audio files to host. Tap **Sound on** to mute. The choice saves in this browser.
+
+## Table games
+
+Walk up to a **Tic-tac table** (Cover), **Odds table** (Pocket), or **Club games** (Plus). Press **E → Play here**.
+
+- A second tab on the same origin sits down as the other player.
+- If you are alone, Binder (or the nearest NPC) plays.
+- Winner gets +8 ink.
+
+## Friends and accounts
+
+Your name is an account. Look, wallet, friends, and win/loss stats store under `ns-account-v2` in this browser.
+
+- Optional PIN on the boot screen locks that doodle.
+- Friends panel lists who is on the page right now.
+- Download / load a JSON save from the Friends panel.
 
 ## Memberships
 
 No payment backend — ink or a chat code.
 
 | Tier | How | Unlocks |
-| --- | --- | --- |
+| --- | --- |
 | free | default | Public pages, +2 ink / min |
 | plus | 80 ink or `/member PLUS` | Club, ribbon hat, pin, +4 ink / min |
 | patron | 200 ink or `/member PATRON` | Club + Margin, star hat, gold ink, +8 ink / min |
