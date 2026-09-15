@@ -29,6 +29,7 @@
     }
     box.innerHTML = "<b>Membership</b><div class='sub'>Club lounge is members-only. Walk the member desk on Cover.</div><button data-up='plus'>Join Plus · 80 ink</button><button data-up='patron'>Join Patron · 200 ink</button><p class='fine'>Or chat /member PLUS or /member PATRON</p>";
   }
+  window.__nbPaintMember = paint;
   window.__nbMember = tier();
   window.__nbRedeem = function (code) {
     const t = CODES[String(code || "").trim().toUpperCase()];

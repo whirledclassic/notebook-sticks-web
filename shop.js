@@ -43,6 +43,8 @@ function applyWallet(w) {
   renderShop();
   const badge = document.getElementById("member-badge");
   if (badge && w.member) { badge.textContent = w.member; badge.dataset.tier = w.member; }
+  if (window.__nbPaintMember) window.__nbPaintMember();
+  if (window.refreshLookChoices) window.refreshLookChoices();
 }
 function extraPath(g, extra, sit) {
   if (!extra || extra === "none") return;
