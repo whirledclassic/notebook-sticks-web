@@ -1,5 +1,4 @@
-/* In-browser stand-in for the Node + ws server. GitHub Pages has no backend.
-   Other tabs on this origin join through BroadcastChannel. */
+/* In-browser stand-in for the Node + ws server. GitHub Pages has no backend. */
 (function () {
   const WORLD = { w: 3200, h: 2100 };
   const RANGE = 420;
@@ -9,20 +8,25 @@
     { id: "comic", name: "Comic" },
     { id: "pocket", name: "Pocket" },
     { id: "back", name: "Back page" },
-    { id: "shop", name: "Ink shop" }
+    { id: "shop", name: "Ink shop" },
+    { id: "club", name: "Club" },
+    { id: "margin", name: "Margin" }
   ];
+  const MEMBER_PAGES = { club: "plus", margin: "patron" };
   const PLACES = {
     cover: [
       { id: "title", name: "Title block", kind: "sign", x: 420, y: 260, r: 150, hint: "The front of the book." },
       { id: "lockers", name: "Locker row", kind: "lockers", x: 1680, y: 240, r: 160, hint: "Drawn metal. Empty." },
       { id: "coffee", name: "Coffee ring plaza", kind: "ring", x: 780, y: 900, r: 180, hint: "The fountain is a stain." },
       { id: "bench", name: "Quiet bench", kind: "bench", x: 2100, y: 720, r: 140, hint: "Sit with C." },
-      { id: "hop", name: "Hopscotch", kind: "hop", x: 1280, y: 1280, r: 160, hint: "F throws a plane. Hop." }
+      { id: "hop", name: "Hopscotch", kind: "hop", x: 1280, y: 1280, r: 160, hint: "F throws a plane. Hop." },
+      { id: "desk", name: "Member desk", kind: "desk", x: 2400, y: 1280, r: 160, hint: "Plus and Patron sign here." }
     ],
     graph: [
       { id: "origin", name: "The origin", kind: "origin", x: 560, y: 1050, r: 150, hint: "(0, 0) more or less." },
       { id: "triangles", name: "Triangle village", kind: "triangles", x: 1680, y: 420, r: 180, hint: "Houses with three walls." },
-      { id: "pi", name: "Pi fountain", kind: "fountain", x: 2300, y: 1200, r: 160, hint: "It never ends." }
+      { id: "pi", name: "Pi fountain", kind: "fountain", x: 2300, y: 1200, r: 160, hint: "It never ends." },
+      { id: "axis", name: "Scribble axis", kind: "scribble", x: 1100, y: 1600, r: 140, hint: "Someone plotted a secret." }
     ],
     comic: [
       { id: "panel1", name: "Panel one", kind: "panel", x: 520, y: 380, r: 170, hint: "Once upon a line." },
@@ -43,6 +47,16 @@
       { id: "yearbook", name: "Yearbook wall", kind: "grid", x: 500, y: 360, r: 170, hint: "Leave a note." },
       { id: "phones", name: "Phone numbers", kind: "list", x: 2100, y: 320, r: 150, hint: "All fake." },
       { id: "exam", name: "Final exam panic", kind: "scribble", x: 1100, y: 1250, r: 190, hint: "Breathe. Dance. Sleep." }
+    ],
+    club: [
+      { id: "lounge", name: "Gold lounge", kind: "lounge", x: 900, y: 600, r: 200, hint: "Plus members only." },
+      { id: "stage", name: "Tiny stage", kind: "sign", x: 2000, y: 500, r: 160, hint: "Dance. The paper likes it." },
+      { id: "booth", name: "Booth", kind: "bench", x: 1600, y: 1200, r: 150, hint: "Sit and brag." }
+    ],
+    margin: [
+      { id: "asterisk", name: "Asterisk grove", kind: "star", x: 700, y: 500, r: 170, hint: "Footnotes live here." },
+      { id: "aside", name: "Side note", kind: "list", x: 1900, y: 400, r: 150, hint: "Patron scribbles." },
+      { id: "arrow", name: "See below", kind: "scribble", x: 1400, y: 1300, r: 180, hint: "The real plot." }
     ]
   };
   const CATALOG = [
@@ -53,6 +67,8 @@
     { kind: "hat", id: "fez", name: "Fez", cost: 45 },
     { kind: "hat", id: "top", name: "Top hat", cost: 60 },
     { kind: "hat", id: "party", name: "Party hat", cost: 28 },
+    { kind: "hat", id: "ribbon", name: "Plus ribbon", cost: 0, member: "plus" },
+    { kind: "hat", id: "star", name: "Patron star", cost: 0, member: "patron" },
     { kind: "color", id: "#6b46c1", name: "Violet ink", cost: 20 },
     { kind: "color", id: "#b7791f", name: "Gold ink", cost: 20 },
     { kind: "color", id: "#dd6b20", name: "Orange ink", cost: 20 },
@@ -62,54 +78,73 @@
     { kind: "extra", id: "scarf", name: "Scarf", cost: 35 },
     { kind: "extra", id: "pack", name: "Backpack", cost: 50 },
     { kind: "extra", id: "cape", name: "Cape", cost: 55 },
-    { kind: "extra", id: "bowtie", name: "Bow tie", cost: 22 }
+    { kind: "extra", id: "bowtie", name: "Bow tie", cost: 22 },
+    { kind: "extra", id: "pin", name: "Member pin", cost: 0, member: "plus" }
   ];
   const FREE_HATS = ["none", "cap", "bow", "antenna"];
   const FREE_COLORS = ["#1b1b1b", "#c23b22", "#2b6cb0", "#2f855a"];
-  const LINES = ["A pencil rolled under the binding.", "The margin yawned.", "Someone erased a secret.", "The coffee ring grew."];
+  const LINES = ["A pencil rolled under the binding.", "The margin yawned.", "Club ribbon inked itself gold.", "A footnote escaped the margin."];
   function emptyWallet() {
-    return { ink: 40, hats: FREE_HATS.slice(), colors: FREE_COLORS.slice(), extras: ["none"], extra: "none", stamps: [] };
+    return { ink: 40, hats: FREE_HATS.slice(), colors: FREE_COLORS.slice(), extras: ["none"], extra: "none", stamps: [], member: "free" };
   }
   function loadWallet(name) {
     try {
       const w = JSON.parse(localStorage.getItem("ns-wallet:" + name.toLowerCase()) || "null");
-      return w || emptyWallet();
-    } catch { return emptyWallet(); }
+      const out = w || emptyWallet();
+      if (!out.member) out.member = localStorage.getItem("ns-member") || "free";
+      return out;
+    } catch (e) { return emptyWallet(); }
   }
   function saveWallet(name, w) {
     localStorage.setItem("ns-wallet:" + name.toLowerCase(), JSON.stringify(w));
-    return { ink: w.ink, hats: w.hats, colors: w.colors, extras: w.extras, extra: w.extra || "none", stamps: w.stamps };
+    try { localStorage.setItem("ns-member", w.member || "free"); } catch (e) {}
+    window.__nbMember = w.member || "free";
+    return { ink: w.ink, hats: w.hats, colors: w.colors, extras: w.extras, extra: w.extra || "none", stamps: w.stamps, member: w.member || "free" };
   }
+  function rank(t) { return t === "patron" ? 2 : t === "plus" ? 1 : 0; }
   const me = {
     id: "local-" + Math.random().toString(36).slice(2, 8),
     name: "Doodle", color: "#1b1b1b", hat: "none", extra: "none",
-    page: "cover", x: 700, y: 560, facing: 1, walking: false, pose: "stand",
+    page: "cover", x: 860, y: 640, facing: 1, walking: false, pose: "stand",
     chat: "", chatUntil: 0
   };
+  window.__nbPlayerId = me.id;
   const others = new Map();
-  const marks = { cover: [], graph: [], comic: [], pocket: [], back: [], shop: [] };
+  const marks = { cover: [], graph: [], comic: [], pocket: [], back: [], shop: [], club: [], margin: [] };
   let sock = null;
   let bus = null;
-  try { bus = new BroadcastChannel("notebook-sticks-web"); } catch {}
+  try { bus = new BroadcastChannel("notebook-sticks-web"); } catch (e) {}
   function view(p) {
     return { id: p.id, name: p.name, color: p.color, hat: p.hat, extra: p.extra || "none", page: p.page, x: p.x, y: p.y, facing: p.facing, walking: p.walking, pose: p.pose, chat: p.chat, chatUntil: p.chatUntil };
   }
-  function emit(msg) {
-    if (sock && sock.onmessage) sock.onmessage({ data: JSON.stringify(msg) });
+  function crowd() {
+    return [...others.values()].filter(function (p) { return p.page === me.page && p.id !== me.id; }).map(view);
   }
   function snap() {
-    return { pages: PAGES, places: PLACES[me.page] || [], marks: marks[me.page] || [], players: [view(me), ...[...others.values()].filter((p) => p.page === me.page).map(view)], world: WORLD, range: RANGE };
+    return { pages: PAGES, places: PLACES[me.page] || [], marks: marks[me.page] || [], players: crowd(), world: WORLD, range: RANGE };
+  }
+  function bindClient() {
+    if (typeof state !== "undefined" && state) {
+      state.id = me.id;
+      if (state.others) state.others.delete(me.id);
+    }
+  }
+  function emit(msg) {
+    bindClient();
+    if (sock && sock.onmessage) sock.onmessage({ data: JSON.stringify(msg) });
   }
   function broadcast(msg) {
-    if (bus) bus.postMessage({ from: me.id, ...msg });
+    if (bus) bus.postMessage(Object.assign({ from: me.id }, msg));
   }
   if (bus) {
-    bus.onmessage = (ev) => {
+    bus.onmessage = function (ev) {
       const msg = ev.data;
       if (!msg || msg.from === me.id) return;
       if (msg.type === "hello" || msg.type === "move") {
-        others.set(msg.from, Object.assign(others.get(msg.from) || { id: msg.from }, msg.player || msg));
-        if (msg.type === "hello") emit({ type: "join", player: others.get(msg.from) });
+        const p = Object.assign(others.get(msg.from) || { id: msg.from }, msg.player || msg);
+        if (p.id === me.id) return;
+        others.set(msg.from, p);
+        if (msg.type === "hello") emit({ type: "join", player: p });
       }
       if (msg.type === "leave") { others.delete(msg.from); emit({ type: "leave", id: msg.from }); }
       if (msg.type === "chat" && (msg.shout || (others.get(msg.from) || {}).page === me.page)) emit(msg);
@@ -117,24 +152,38 @@
       if (msg.type === "mark" && msg.page === me.page) { marks[me.page].push(msg.mark); emit({ type: "mark", mark: msg.mark }); }
     };
   }
+  function grantMemberItems(w) {
+    if (rank(w.member) >= 1) {
+      if (w.hats.indexOf("ribbon") < 0) w.hats.push("ribbon");
+      if (w.extras.indexOf("pin") < 0) w.extras.push("pin");
+    }
+    if (rank(w.member) >= 2) {
+      if (w.hats.indexOf("star") < 0) w.hats.push("star");
+      if (w.hats.indexOf("crown") < 0) w.hats.push("crown");
+    }
+  }
   function handle(msg) {
     if (msg.type === "join") {
       me.name = String(msg.name || "Doodle").slice(0, 16);
       me.color = msg.color || me.color;
       me.hat = msg.hat || me.hat;
-      me.page = "cover";
-      emit({ type: "welcome", id: me.id, you: view(me), catalog: CATALOG, wallet: saveWallet(me.name, loadWallet(me.name)), ...snap() });
+      me.page = "cover"; me.x = 860; me.y = 640;
+      const w = loadWallet(me.name);
+      grantMemberItems(w);
+      window.__nbPlayerId = me.id;
+      bindClient();
+      emit({ type: "welcome", id: me.id, you: view(me), catalog: CATALOG, wallet: saveWallet(me.name, w), pages: snap().pages, places: snap().places, marks: snap().marks, players: crowd(), world: WORLD, range: RANGE });
       broadcast({ type: "hello", player: view(me) });
       seedNpcs();
       return;
     }
     if (msg.type === "move") {
       me.x = msg.x; me.y = msg.y; me.facing = msg.facing === -1 ? -1 : 1; me.walking = !!msg.walking;
-      const here = (PLACES[me.page] || []).find((pl) => Math.hypot(pl.x - me.x, pl.y - me.y) < pl.r);
+      const here = (PLACES[me.page] || []).find(function (pl) { return Math.hypot(pl.x - me.x, pl.y - me.y) < pl.r; });
       if (here) {
         const w = loadWallet(me.name);
         const sid = me.page + ":" + here.id;
-        if (!w.stamps.includes(sid)) {
+        if (w.stamps.indexOf(sid) < 0) {
           w.stamps.push(sid); w.ink += 3;
           emit({ type: "stamp", place: here.name, wallet: saveWallet(me.name, w) });
         }
@@ -143,10 +192,16 @@
       return;
     }
     if (msg.type === "page") {
-      me.page = PAGES.some((p) => p.id === msg.page) ? msg.page : "cover";
-      me.x = 640 + Math.random() * 400; me.y = 560 + Math.random() * 200;
-      me.walking = false; me.pose = "stand";
-      emit({ type: "page", page: me.page, you: view(me), ...snap() });
+      const next = PAGES.some(function (p) { return p.id === msg.page; }) ? msg.page : "cover";
+      const need = MEMBER_PAGES[next];
+      const w = loadWallet(me.name);
+      if (need && rank(w.member) < rank(need)) {
+        emit({ type: "event", text: next === "margin" ? "Margin is Patron-only. /member PATRON" : "Club is Plus-only. Join at the member desk." });
+        return;
+      }
+      me.page = next;
+      me.x = 720; me.y = 640; me.walking = false; me.pose = "stand";
+      emit({ type: "page", page: me.page, you: view(me), pages: PAGES, places: PLACES[me.page] || [], marks: marks[me.page] || [], players: crowd(), world: WORLD, range: RANGE });
       seedNpcs();
       broadcast({ type: "hello", player: view(me) });
       return;
@@ -154,13 +209,21 @@
     if (msg.type === "chat") {
       let text = String(msg.text || "").trim().slice(0, 140);
       if (!text) return;
-      const shout = text.startsWith("!");
+      if (text.toLowerCase().indexOf("/member") === 0) {
+        const code = text.split(/\s+/)[1] || "";
+        const ok = window.__nbRedeem && window.__nbRedeem(code);
+        const w = loadWallet(me.name);
+        if (ok) { w.member = ok; grantMemberItems(w); emit({ type: "wallet", wallet: saveWallet(me.name, w) }); emit({ type: "event", text: "Membership is now " + ok + "." }); }
+        else emit({ type: "event", text: "Try /member PLUS or /member PATRON" });
+        return;
+      }
+      const shout = text.charAt(0) === "!";
       if (shout) text = text.slice(1).trim();
       me.chat = text; me.chatUntil = Date.now() + 5200;
       const w = loadWallet(me.name); w.ink += 1;
       emit({ type: "wallet", wallet: saveWallet(me.name, w) });
-      emit({ type: "chat", id: me.id, name: me.name, text, until: me.chatUntil, shout });
-      broadcast({ type: "chat", id: me.id, name: me.name, text, until: me.chatUntil, shout });
+      emit({ type: "chat", id: me.id, name: me.name, text: text, until: me.chatUntil, shout: shout });
+      broadcast({ type: "chat", id: me.id, name: me.name, text: text, until: me.chatUntil, shout: shout });
       return;
     }
     if (msg.type === "pose") { me.pose = msg.pose || "stand"; broadcast({ type: "move", player: view(me) }); return; }
@@ -170,15 +233,29 @@
       broadcast({ type: "hello", player: view(me) });
       return;
     }
+    if (msg.type === "member" || msg.type === "memberbuy") {
+      const w = loadWallet(me.name);
+      const t = msg.tier === "patron" ? "patron" : "plus";
+      if (msg.type === "memberbuy") {
+        const cost = t === "patron" ? 200 : 80;
+        if (w.ink < cost) { emit({ type: "event", text: "Not enough ink for " + t + "." }); return; }
+        w.ink -= cost;
+      }
+      w.member = t; grantMemberItems(w);
+      emit({ type: "wallet", wallet: saveWallet(me.name, w) });
+      emit({ type: "event", text: "You are " + t + " now. Club is open." });
+      return;
+    }
     if (msg.type === "buy") {
-      const item = CATALOG.find((c) => c.kind === msg.kind && c.id === msg.id);
+      const item = CATALOG.find(function (c) { return c.kind === msg.kind && c.id === msg.id; });
       const w = loadWallet(me.name);
       if (!item) { emit({ type: "buy", ok: false, error: "Not in the shop." }); return; }
+      if (item.member && rank(w.member) < rank(item.member)) { emit({ type: "buy", ok: false, error: "Need " + item.member + " membership." }); return; }
       const bag = item.kind === "hat" ? w.hats : item.kind === "color" ? w.colors : w.extras;
-      if (bag.includes(item.id)) { emit({ type: "buy", ok: false, error: "You already have that." }); return; }
+      if (bag.indexOf(item.id) >= 0) { emit({ type: "buy", ok: false, error: "You already have that." }); return; }
       if (w.ink < item.cost) { emit({ type: "buy", ok: false, error: "Not enough ink." }); return; }
       w.ink -= item.cost; bag.push(item.id);
-      emit({ type: "buy", ok: true, item, wallet: saveWallet(me.name, w) });
+      emit({ type: "buy", ok: true, item: item, wallet: saveWallet(me.name, w) });
       return;
     }
     if (msg.type === "plane") {
@@ -189,43 +266,38 @@
     if (msg.type === "mark") {
       const text = String(msg.text || "").trim().slice(0, 48);
       if (!text) return;
-      const mark = { id: me.id + Date.now(), x: me.x, y: me.y + 18, text, name: me.name, color: me.color, until: Date.now() + 8 * 60 * 1000 };
+      const mark = { id: me.id + Date.now(), x: me.x, y: me.y + 18, text: text, name: me.name, color: me.color, until: Date.now() + 8 * 60 * 1000 };
       marks[me.page].push(mark);
-      emit({ type: "mark", mark });
-      broadcast({ type: "mark", page: me.page, mark });
+      emit({ type: "mark", mark: mark });
+      broadcast({ type: "mark", page: me.page, mark: mark });
     }
   }
   function seedNpcs() {
-    const names = ["Margin", "Binder", "Graphie"];
+    Array.from(others.keys()).forEach(function (id) { if (String(id).indexOf("npc-") === 0) others.delete(id); });
+    const list = ({ cover: [["Margin", "cap"], ["Binder", "bow"]], graph: [["Graphie", "antenna"]], comic: [["Splash", "party"]], pocket: [["Clip", "cap"]], shop: [["Till", "fez"]], back: [["Yearbook", "flower"]], club: [["Host", "ribbon"]], margin: [["Asterisk", "star"]] })[me.page] || [];
     const spots = PLACES[me.page] || [];
-    names.forEach((name, i) => {
-      const s = spots[i % Math.max(1, spots.length)] || { x: 800, y: 600 };
-      others.set("npc-" + name, {
-        id: "npc-" + name, name, color: FREE_COLORS[(i + 1) % FREE_COLORS.length],
-        hat: FREE_HATS[i % FREE_HATS.length], extra: "none", page: me.page,
-        x: s.x + (i - 1) * 50, y: s.y + 40, facing: 1, walking: false, pose: i === 0 ? "sit" : "stand",
-        chat: "", chatUntil: 0
-      });
+    list.forEach(function (n, i) {
+      const s = spots[(i + 1) % Math.max(1, spots.length)] || { x: 1400, y: 900 };
+      others.set("npc-" + n[0], { id: "npc-" + n[0], name: n[0], color: FREE_COLORS[(i + 1) % FREE_COLORS.length], hat: n[1], extra: "none", page: me.page, x: s.x + 90, y: s.y + 60, facing: -1, walking: false, pose: "stand", chat: "", chatUntil: 0 });
     });
   }
-  setInterval(() => {
-    emit({ type: "snap", t: Date.now(), players: snap().players.map((p) => ({ id: p.id, x: Math.round(p.x), y: Math.round(p.y), facing: p.facing, walking: p.walking, pose: p.pose })) });
+  setInterval(function () {
+    emit({ type: "snap", t: Date.now(), players: crowd().map(function (p) { return { id: p.id, x: Math.round(p.x), y: Math.round(p.y), facing: p.facing, walking: p.walking, pose: p.pose }; }) });
   }, 80);
-  setInterval(() => {
-    const w = loadWallet(me.name); w.ink += 2;
+  setInterval(function () {
+    const w = loadWallet(me.name);
+    w.ink += rank(w.member) >= 2 ? 8 : rank(w.member) >= 1 ? 4 : 2;
     emit({ type: "wallet", wallet: saveWallet(me.name, w) });
   }, 60000);
-  setInterval(() => emit({ type: "event", text: LINES[Math.floor(Math.random() * LINES.length)] }), 45000);
-  addEventListener("beforeunload", () => broadcast({ type: "leave" }));
-  class FakeSocket {
-    constructor() {
-      sock = this;
-      this.readyState = 0;
-      setTimeout(() => { this.readyState = 1; if (this.onopen) this.onopen(); }, 0);
-    }
-    send(raw) { try { handle(JSON.parse(raw)); } catch {}
-    }
-    close() { this.readyState = 3; }
+  setInterval(function () { emit({ type: "event", text: LINES[Math.floor(Math.random() * LINES.length)] }); }, 45000);
+  addEventListener("beforeunload", function () { broadcast({ type: "leave" }); });
+  function FakeSocket() {
+    sock = this;
+    this.readyState = 0;
+    var self = this;
+    setTimeout(function () { self.readyState = 1; if (self.onopen) self.onopen(); }, 0);
   }
+  FakeSocket.prototype.send = function (raw) { try { handle(JSON.parse(raw)); } catch (e) {} };
+  FakeSocket.prototype.close = function () { this.readyState = 3; };
   window.WebSocket = function () { return new FakeSocket(); };
 })();
