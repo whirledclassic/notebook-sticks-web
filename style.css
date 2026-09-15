@@ -3,15 +3,12 @@
 html, body { margin:0; height:100%; }
 body {
   font-family: "Trebuchet MS", "Segoe UI", "Comic Sans MS", "Segoe Print", cursive, sans-serif;
-  background:#cbbfa6;
-  color:var(--ink);
-  overflow:hidden;
+  background:#cbbfa6; color:var(--ink); overflow:hidden;
 }
 #boot, #hud { position:fixed; inset:0; }
 #boot {
   display:flex; align-items:center; justify-content:center; z-index:5;
-  background: repeating-linear-gradient(#f4eed8,#f4eed8 31px,#c7d8ea 32px);
-  overflow:auto;
+  background: repeating-linear-gradient(#f4eed8,#f4eed8 31px,#c7d8ea 32px); overflow:auto;
 }
 .sheet {
   width:min(540px,92vw); background:rgba(244,238,216,.96); border:2px solid #1b1b1b;
@@ -30,9 +27,8 @@ textarea { min-height:64px; resize:vertical; margin:6px 0; }
 .row { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 4px; }
 .swatch, .hat, .bar button, .play, #pages button, #roster button, #dest button, #shop button,
 #friends button, #social-panel button, #game-panel button, #prompt-box button, #member-box button,
-#accounts button, #admin-box button, #replay-box button, #admin-badge, #member-badge {
-  border:2px solid #1b1b1b; background:#fff; cursor:pointer; font:inherit;
-}
+#accounts button, #admin-box button, #replay-box button, #job-panel button, #house-panel button,
+#admin-badge, #member-badge { border:2px solid #1b1b1b; background:#fff; cursor:pointer; font:inherit; }
 .swatch, .hat { width:36px; height:36px; }
 .swatch.on, .hat.on, #pages button.on, #dest button.on { outline:3px solid #1b1b1b; outline-offset:2px; }
 .play { margin-top:14px; width:100%; font-size:22px; padding:10px; background:#ffd56a; box-shadow:4px 4px 0 #1b1b1b; }
@@ -41,7 +37,7 @@ canvas#game { display:block; width:100vw; height:100vh; background:#f4eed8; touc
 #hud { pointer-events:none; }
 #hint, #who, #here, #ink, #chatlog, #look, .bar, #pages, #roster, #mini, #dest, #shop,
 #member-badge, #member-box, #friends, #social-panel, #game-panel, #prompt-box, #saved-accounts,
-#admin-box, #replay-box, #admin-badge, #br-banner, #replay-hud { pointer-events:auto; }
+#admin-box, #replay-box, #admin-badge, #br-banner, #replay-hud, #job-panel, #house-panel { pointer-events:auto; }
 #hint, #who, #here, #ink, #member-badge, #admin-badge {
   position:absolute; left:16px; background:rgba(244,238,216,.92); border:2px solid #1b1b1b; padding:6px 10px;
 }
@@ -63,14 +59,20 @@ canvas#game { display:block; width:100vw; height:100vh; background:#f4eed8; touc
 #friends { display:none; position:absolute; left:16px; bottom:70px; width:220px; max-height:36vh; overflow:auto; background:rgba(244,238,216,.96); border:2px solid #1b1b1b; padding:10px; z-index:3; }
 #friends.show { display:block; }
 #friends button, #social-panel button, #game-panel button, #prompt-box button, #member-box button,
-#admin-box button, #replay-box button { display:block; width:100%; text-align:left; margin:4px 0; padding:6px 8px; }
+#admin-box button, #replay-box button, #job-panel button, #house-panel button { display:block; width:100%; text-align:left; margin:4px 0; padding:6px 8px; }
 #chatlog { position:absolute; right:16px; top:128px; width:min(280px,42vw); max-height:24vh; overflow:auto; background:rgba(244,238,216,.9); border:2px solid #1b1b1b; padding:8px 10px; font-size:14px; }
-#shop, #member-box, #social-panel, #game-panel, #admin-box, #replay-box {
+#shop, #member-box, #social-panel, #game-panel, #admin-box, #replay-box, #job-panel, #house-panel {
   display:none; position:absolute; right:16px; bottom:78px; width:min(320px,46vw); max-height:42vh; overflow:auto;
   background:rgba(244,238,216,.96); border:2px solid #1b1b1b; padding:10px; z-index:3;
 }
-#shop.show, #member-box.show, #social-panel.show, #game-panel.show, #admin-box.show, #replay-box.show { display:block; }
-#shop button:disabled, #replay-box button:disabled { opacity:.55; cursor:default; }
+#shop.show, #member-box.show, #social-panel.show, #game-panel.show, #admin-box.show, #replay-box.show,
+#job-panel.show, #house-panel.show { display:block; }
+.job-row { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
+.job-row button { width:auto; display:inline-block; min-width:44px; }
+.hop-row button.on, .job-row button.on { background:#ffd56a; }
+.drip-stage { position:relative; height:90px; border:2px dashed #1b1b1b; margin:8px 0; background:#fffdf6; }
+.drip { position:absolute; top:20px; width:auto; font-size:28px; color:#2b6cb0; }
+#shop button:disabled, #replay-box button:disabled, #house-panel button:disabled { opacity:.55; cursor:default; }
 #prompt-box { display:none; position:absolute; left:50%; bottom:86px; transform:translateX(-50%); min-width:min(420px,90vw); background:rgba(244,238,216,.97); border:2px solid #1b1b1b; padding:10px 12px; z-index:4; box-shadow:4px 4px 0 #1b1b1b; }
 #prompt-box.show { display:block; }
 #prompt-box .acts { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
