@@ -13,7 +13,7 @@ function renderShop() {
   const box = document.getElementById("shop");
   if (!box) return;
   const near = nearestPlace();
-  const atShop = state.me.page === "shop" || state.me.page === "club" || (near && (near.id === "counter" || near.id === "desk"));
+  const atShop = state.me.page === "shop" || state.me.page === "club" || (near && (near.id === "counter" || near.id === "desk" || near.id === "bar"));
   box.classList.toggle("show", atShop);
   if (!atShop) return;
   const items = state.catalog || [];
@@ -38,6 +38,7 @@ function applyWallet(w) {
   if (!w) return;
   state.wallet = w;
   if (w.member) window.__nbMember = w.member;
+  if (state.me && w.member) state.me.member = w.member;
   renderInk();
   renderShop();
   const badge = document.getElementById("member-badge");
@@ -63,5 +64,8 @@ function extraPath(g, extra, sit) {
     g.moveTo(-8, -40 + sit); g.lineTo(0, -36 + sit); g.lineTo(8, -40 + sit); g.lineTo(0, -32 + sit); g.closePath(); g.stroke();
   } else if (extra === "pin") {
     g.arc(10, -28 + sit, 3.5, 0, Math.PI * 2); g.stroke();
+  } else if (extra === "sash") {
+    g.moveTo(-12, -36 + sit); g.lineTo(12, -8 + sit);
+    g.stroke();
   }
 }
