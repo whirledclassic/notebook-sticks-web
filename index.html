@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <meta name="theme-color" content="#f4eed8"/>
   <title>Notebook Sticks</title>
-  <meta name="description" content="A playable stick-figure social sketchbook. Walk the pages, collect stamps, spend ink."/>
+  <meta name="description" content="A playable stick-figure social sketchbook. Walk the pages, collect stamps, play table games."/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
@@ -13,22 +13,25 @@
     <div class="sheet">
       <p class="kicker">a shared sketchbook</p>
       <h1>Notebook Sticks</h1>
-      <p class="sub">Walk places for stamps. Talk for ink. F throws a paper airplane. Members unlock Club and Margin.</p>
+      <p class="sub">Walk places for stamps. Sit at a table for tic-tac-toe. Friends and ink save under your name.</p>
       <canvas id="preview" width="180" height="160"></canvas>
       <label for="name">Name</label>
       <input id="name" type="text" maxlength="16" placeholder="Doodle" autocomplete="off" autofocus/>
+      <label for="pin">PIN (optional — locks this doodle)</label>
+      <input id="pin" type="password" maxlength="8" placeholder="leave blank" autocomplete="off"/>
+      <div id="saved-accounts"></div>
       <label>Ink color</label>
       <div class="row" id="colors"></div>
       <label>Hat</label>
       <div class="row" id="hats"></div>
       <button class="play" id="go" type="button">Open the notebook</button>
-      <p class="fine">Saves in this browser. /member PLUS or /member PATRON</p>
+      <p class="fine">Saves in this browser. E talks. Q friends. /member PLUS or /member PATRON</p>
     </div>
   </div>
 
   <canvas id="game"></canvas>
   <div id="hud">
-    <div id="hint">Visit scribbles for stamps. F = airplane. Shop spends ink. Member opens Club.</div>
+    <div id="hint">Visit scribbles for stamps. E = interact. F = airplane. Sit at a table to play.</div>
     <div id="who"></div>
     <div id="ink">40 ink</div>
     <button id="member-badge" type="button" data-tier="free">free</button>
@@ -40,13 +43,18 @@
     <div id="chatlog"></div>
     <div id="shop"></div>
     <div id="member-box"></div>
+    <div id="friends"></div>
+    <div id="game-panel"></div>
+    <div id="prompt-box"></div>
     <div class="bar">
       <button id="look-toggle" type="button">Look</button>
+      <button id="friends-toggle" type="button">Friends</button>
+      <button id="interact-toggle" type="button">E</button>
       <button id="member-toggle" type="button">Member</button>
       <button id="pose-wave" type="button">Wave</button>
       <button id="pose-sit" type="button">Sit</button>
       <button id="pose-dance" type="button">Dance</button>
-      <input id="chat" maxlength="140" placeholder="say hi · /member PLUS · F plane"/>
+      <input id="chat" maxlength="140" placeholder="say hi · /friend Name · /w Name hi · F plane"/>
     </div>
     <div id="look">
       <b>Change doodle</b>
@@ -55,12 +63,15 @@
       <div class="row" id="look-extras"></div>
     </div>
   </div>
+  <script src="account.js"></script>
   <script src="membership.js"></script>
   <script src="mock-net.js"></script>
   <script src="world.js"></script>
   <script src="engine.js"></script>
   <script src="shop.js"></script>
   <script src="fun.js"></script>
+  <script src="social.js"></script>
+  <script src="games.js"></script>
   <script src="game.js"></script>
   <script src="patch.js"></script>
 </body>
