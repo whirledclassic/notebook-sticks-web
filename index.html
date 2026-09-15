@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <meta name="theme-color" content="#f4eed8"/>
   <title>Notebook Sticks</title>
-  <meta name="description" content="A playable stick-figure social sketchbook. Walk the pages, collect stamps, replay walks, run an admin desk."/>
+  <meta name="description" content="Work jobs for ink, buy clothes, own a doodle room."/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
@@ -13,7 +13,7 @@
     <div class="sheet">
       <p class="kicker">a shared sketchbook</p>
       <h1>Notebook Sticks</h1>
-      <p class="sub">Walk for stamps. Record a tape. Members unlock Club. Admins can kick, mute, ban, and broadcast.</p>
+      <p class="sub">Work jobs for ink. Buy clothes. Buy a room and doodle the walls.</p>
       <canvas id="preview" width="180" height="160"></canvas>
       <label for="name">Name</label>
       <input id="name" type="text" maxlength="16" placeholder="Doodle" autocomplete="off" autofocus/>
@@ -25,15 +25,14 @@
       <label>Hat</label>
       <div class="row" id="hats"></div>
       <button class="play" id="go" type="button">Open the notebook</button>
-      <p class="fine">R records a replay. /admin INKBOSS opens the desk. /br hello broadcasts.</p>
+      <p class="fine">Jobs pay ink. Street sells rooms. /job · /street · /home</p>
     </div>
   </div>
-
   <canvas id="game"></canvas>
   <div id="hud">
     <div id="br-banner"></div>
     <div id="replay-hud"></div>
-    <div id="hint">Visit scribbles for stamps. E = interact. R = record. F = airplane.</div>
+    <div id="hint">Work jobs for ink. Buy clothes. Own a room.</div>
     <div id="who"></div>
     <div id="ink">40 ink</div>
     <button id="member-badge" type="button" data-tier="free">free</button>
@@ -50,11 +49,15 @@
     <div id="game-panel"></div>
     <div id="admin-box"></div>
     <div id="replay-box"></div>
+    <div id="job-panel"></div>
+    <div id="house-panel"></div>
     <div id="prompt-box"></div>
     <div class="bar">
       <button id="look-toggle" type="button">Look</button>
       <button id="friends-toggle" type="button">Friends</button>
       <button id="interact-toggle" type="button">E</button>
+      <button id="jobs-toggle" type="button">Jobs</button>
+      <button id="house-toggle" type="button">Home</button>
       <button id="replay-toggle" type="button">Replay</button>
       <button id="admin-toggle" type="button" hidden>Admin</button>
       <button id="member-toggle" type="button">Member</button>
@@ -62,7 +65,7 @@
       <button id="pose-sit" type="button">Sit</button>
       <button id="pose-dance" type="button">Dance</button>
       <button id="sfx-toggle" type="button">Sound on</button>
-      <input id="chat" maxlength="140" placeholder="say hi · /br hello · /rec · /kick Name"/>
+      <input id="chat" maxlength="140" placeholder="/job · /street · /home · say hi"/>
     </div>
     <div id="look">
       <b>Change doodle</b>
@@ -83,6 +86,7 @@
   <script src="games.js"></script>
   <script src="admin.js"></script>
   <script src="replay.js"></script>
+  <script src="purpose.js"></script>
   <script src="game.js"></script>
   <script src="patch.js"></script>
   <script src="hooks.js"></script>
