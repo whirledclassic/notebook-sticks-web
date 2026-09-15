@@ -4,8 +4,11 @@ const ScribbleEngine = {
   applySnap: function (others, myId, snap) {
     const t = Number(snap.t) || Date.now();
     const seen = new Set();
+    const mine = myId || (typeof window !== "undefined" && window.__nbPlayerId) || (typeof state !== "undefined" && state && state.id) || null;
     for (const s of snap.players || []) {
-      if (!s || s.id === myId) continue;
+      if (!s || !s.id) continue;
+      if (mine && s.id === mine) continue;
+      if (typeof window !== "undefined" && window.__nbPlayerId && s.id === window.__nbPlayerId) continue;
       seen.add(s.id);
       let p = others.get(s.id);
       if (!p) {
@@ -22,6 +25,7 @@ const ScribbleEngine = {
       p.walking = Boolean(s.walking);
       if (s.pose) p.pose = s.pose;
     }
+    if (mine) others.delete(mine);
     return seen;
   },
   sample: function (others, now) {
