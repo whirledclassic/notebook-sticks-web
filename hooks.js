@@ -1,4 +1,4 @@
-/* Late hooks: chat, social core, jobs/houses, moderation. */
+/* Late hooks: chat, social core, jobs/houses, gear, moderation. */
 (function () {
   function wrap() {
     if (typeof sendChat === "function" && !sendChat.__nbHooked) {
@@ -8,6 +8,7 @@
         if (!text) return;
         if (window.memberChat && window.memberChat(text)) return;
         if (window.payChat && window.payChat(text)) return;
+        if (window.gearChat && window.gearChat(text)) return;
         if (window.adminChat && window.adminChat(text)) return;
         if (window.replayChat && window.replayChat(text)) return;
         if (window.coreChat && window.coreChat(text)) return;
@@ -23,16 +24,13 @@
         if (!msg) return;
         if (window.__nbKicked || window.__nbBanned) return;
         if (msg.type === "join" && window.Admin && Admin.isBanned(msg.name)) {
-          if (window.__nbBanner) window.__nbBanner("That name is banned.", "warn");
-          return;
+          if (window.__nbBanner) window.__nbBanner("That name is banned.", "warn"); return;
         }
         if (msg.type === "chat" && state && state.me && window.Admin && Admin.isMuted(state.me.name)) {
-          if (window.__nbBanner) window.__nbBanner("Muted — chat is blocked.", "warn");
-          return;
+          if (window.__nbBanner) window.__nbBanner("Muted — chat is blocked.", "warn"); return;
         }
         if (msg.type === "page" && (msg.page === "home" || msg.page === "street")) {
-          if (window.goLocalPage) window.goLocalPage(msg.page);
-          return;
+          if (window.goLocalPage) window.goLocalPage(msg.page); return;
         }
         prev(msg);
       };
@@ -45,6 +43,7 @@
         if (window.tickReplay) window.tickReplay(dt);
         if (window.tickPurpose) window.tickPurpose(dt);
         if (window.tickCore) window.tickCore(dt);
+        if (window.tickGear) window.tickGear(dt);
       };
       tickFun.__nbHooked = true;
     }
@@ -55,6 +54,7 @@
         if (window.drawReplay) window.drawReplay(g);
         if (window.drawPurpose) window.drawPurpose(g);
         if (window.drawCore) window.drawCore(g);
+        if (window.drawGearWorld) window.drawGearWorld(g);
       };
       drawFun.__nbHooked = true;
     }
