@@ -1,5 +1,6 @@
-/* Late hooks: chat, gear fx, jobs/houses, moderation. */
+/* Late hooks: chat, gear fx, jobs/houses, maker, moderation. */
 (function () {
+  const LOCAL = { home: 1, street: 1, studio: 1, bazaar: 1, park: 1, cafe: 1, dock: 1 };
   function wrap() {
     if (typeof sendChat === "function" && !sendChat.__nbHooked) {
       const orig = sendChat;
@@ -13,6 +14,8 @@
         if (window.gearChat && window.gearChat(text)) return;
         if (window.coreChat && window.coreChat(text)) return;
         if (window.purposeChat && window.purposeChat(text)) return;
+        if (window.houseChat && window.houseChat(text)) return;
+        if (window.makerChat && window.makerChat(text)) return;
         if (window.socialChat && window.socialChat(text)) return;
         orig(text);
       };
@@ -31,7 +34,7 @@
           if (window.__nbBanner) window.__nbBanner("Muted — chat is blocked.", "warn");
           return;
         }
-        if (msg.type === "page" && (msg.page === "home" || msg.page === "street")) {
+        if (msg.type === "page" && LOCAL[msg.page]) {
           if (window.goLocalPage) window.goLocalPage(msg.page);
           return;
         }
@@ -47,6 +50,7 @@
         if (window.tickPurpose) window.tickPurpose(dt);
         if (window.tickCore) window.tickCore(dt);
         if (window.tickGear) window.tickGear(dt);
+        if (window.tickMaker) window.tickMaker(dt);
       };
       tickFun.__nbHooked = true;
     }
@@ -59,6 +63,7 @@
         if (window.drawCore) window.drawCore(g);
         if (window.drawGear) window.drawGear(g);
         if (window.drawGearWorld) window.drawGearWorld(g);
+        if (window.drawMaker) window.drawMaker(g);
       };
       drawFun.__nbHooked = true;
     }
