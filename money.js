@@ -4,9 +4,7 @@
     if (!w) w = {};
     if (w.pencils == null) w.pencils = (w.ink != null ? w.ink : 40);
     if (w.erasers == null) w.erasers = 3;
-    if (w.ink != null && w.ink !== w.pencils) {
-      if (w.ink > w.pencils) w.pencils = w.ink;
-    }
+    if (w.ink != null && w.ink > (w.pencils || 0)) w.pencils = w.ink;
     w.ink = w.pencils;
     return w;
   }
@@ -48,7 +46,10 @@
   window.normWallet = norm;
   window.paintMoney = paint;
   window.payMoney = pay;
-  window.payInk = function (n, reason) { return pay(n, 0, reason); };
+  window.payInk = function (n, reason) {
+    const job = n > 0 && /run|shift|fill|hang|duty|job|mail|plot|hop/i.test(String(reason || ""));
+    return pay(n, job ? 1 : 0, reason);
+  };
   window.canPay = function (pencils, erasers) {
     const w = (state && state.wallet) ? norm(state.wallet) : { pencils: 0, erasers: 0 };
     return w.pencils >= (pencils || 0) && w.erasers >= (erasers || 0);
