@@ -4,6 +4,8 @@ A playable stick-figure sketchbook you can ship from GitHub.
 
 Walk the pages. Collect stamps. Spend ink. Sit at a table and play tic-tac-toe. Add friends. Your doodle saves in this browser (optional PIN). Open a second tab to play against yourself — you should only ever see one of yourself in the tab you are playing.
 
+The HUD is small on purpose: **Map**, **Draw**, **Me**, **Talk**, **More**. Everything else (Bazaar, Friends, Jobs, Member) lives under More. Pages are packed with extra landmarks, scenery, and NPCs so they are not empty ruled paper.
+
 **Play it live:** [whirledclassic.github.io/sticks](https://whirledclassic.github.io/sticks/) · [Pages build](https://whirledclassic.github.io/notebook-sticks-web/)
 
 This is the static, GitHub Pages edition of the original [notebook-sticks](https://github.com/whirledclassic/notebook-sticks) idea. No Node server.
@@ -26,74 +28,21 @@ Then visit http://localhost:8080
 | --- | --- |
 | WASD / arrows | Walk |
 | Click the page | Walk there |
-| Page buttons | Turn the notebook |
-| Place list | Walk to a scribble |
+| Map | Pages, landmarks, who is here |
+| Draw | Studio closet + pad |
 | Chat box | Talk (+1 ink) |
 | `!hello` | Shout the page |
 | `/mark hi` | Pin a note |
-| `/member PLUS` | Unlock Plus (Club) |
-| `/member PATRON` | Unlock Patron (Club + Margin) |
 | F | Paper airplane |
 | Wave / Sit / Dance | Poses |
-| E / Interact | Talk, high-five, friend, challenge |
-| Q / Friends | Friend list + save file |
-| Look | Change owned ink / hats |
-| Member | Buy a tier with ink |
-| Shop / Club / desk | Spend ink |
-| Sound on / off | Mute sketchbook SFX (saves in this browser) |
-| `/friend Name` | Add a friend |
-| `/w Name hi` | Whisper |
-| `/gift Name 5` | Send ink |
+| Talk / E | Interact |
+| P / Me | Your profile card |
+| `/studio` `/plaza` `/where` | Jump pages |
 
-Visit a named scribble once for a **stamp** and +3 ink (Club / Margin stamps give +8). Wallet saves under your name in this browser.
-
-Pages: Cover, Graph, Comic, Pocket, Gallery, Back, Shop. **Club** needs Plus. **Margin** needs Patron.
-
-## Sound
-
-Footsteps, page turns, stamps, chat, planes, high-fives, shop buys, and table-game wins are tiny Web Audio beeps — no audio files to host. Tap **Sound on** to mute. The choice saves in this browser.
-
-## Table games
-
-Walk up to a **Tic-tac table** (Cover), **Odds table** (Pocket), or **Club games** (Plus). Press **E → Play here**.
-
-- A second tab on the same origin sits down as the other player.
-- If you are alone, Binder (or the nearest NPC) plays.
-- Winner gets +8 ink.
-
-## Friends and accounts
-
-Your name is an account. Look, wallet, friends, and win/loss stats store under `ns-account-v2` in this browser.
-
-- Optional PIN on the boot screen locks that doodle.
-- Friends panel lists who is on the page right now.
-- Download / load a JSON save from the Friends panel.
-
-## Memberships
-
-No payment backend — ink or a chat code.
-
-| Tier | How | Unlocks |
-| --- | --- |
-| free | default | Public pages, +2 ink / min |
-| plus | 80 ink or `/member PLUS` | Club, ribbon hat, pin, +4 ink / min |
-| patron | 200 ink or `/member PATRON` | Club + Margin, star hat, gold ink, +8 ink / min |
-
-## Why this repo exists
-
-The original game talks over WebSockets and needs `npm start`. This repo is the shippable website:
-
-- static files at the repo root
-- GitHub Actions deploys GitHub Pages on every push to `main`
-- second tab multiplayer via `BroadcastChannel` (same browser / same origin)
-- NPCs so a lone page still feels inhabited
-
-True internet-wide multiplayer still lives on the Node original. This build is the one you can send as a link.
+Town pages: Studio, Bazaar, Park, Cafe, Dock, Library, Arcade, Plaza, Attic, Beach, Rooftop, Museum.
 
 ## Deploy
 
 Push to `main`. The workflow in `.github/workflows/pages.yml` publishes the site.
 
-First deploy: in the repo **Settings → Pages**, set Source to **GitHub Actions** if GitHub asks. After that the URL is:
-
-`https://<user>.github.io/notebook-sticks-web/`
+`https://whirledclassic.github.io/notebook-sticks-web/`

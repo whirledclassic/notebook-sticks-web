@@ -35,38 +35,41 @@ textarea { min-height:64px; resize:vertical; margin:6px 0; }
 .play:active { transform:translate(2px,2px); box-shadow:2px 2px 0 #1b1b1b; }
 canvas#game { display:block; width:100vw; height:100vh; background:#f4eed8; touch-action:none; }
 #hud { pointer-events:none; }
-#hint, #who, #here, #ink, #chatlog, #look, .bar, #pages, #roster, #mini, #dest, #shop,
+#status, #ink, #chatlog, #look, .bar, #shop, #profile-box, #party-box, #mail-box, #trade-box,
 #member-badge, #member-box, #friends, #social-panel, #game-panel, #prompt-box, #saved-accounts,
 #admin-box, #replay-box, #admin-badge, #br-banner, #replay-hud, #job-panel, #house-panel { pointer-events:auto; }
-#hint, #who, #here, #ink, #member-badge, #admin-badge {
-  position:absolute; left:16px; background:rgba(244,238,216,.92); border:2px solid #1b1b1b; padding:6px 10px;
+#status, #ink, #member-badge, #admin-badge {
+  position:absolute; background:rgba(244,238,216,.92); border:2px solid #1b1b1b; padding:6px 10px;
 }
-#hint { top:12px; max-width:52vw; }
-#who { top:52px; font-size:14px; }
-#ink { left:auto; right:16px; top:16px; background:#ffd56a; }
-#member-badge { left:auto; right:16px; top:52px; text-transform:uppercase; letter-spacing:.06em; }
-#admin-badge { left:auto; right:16px; top:88px; background:#111; color:#ffd56a; text-transform:uppercase; letter-spacing:.08em; font-size:12px; }
+#status { left:16px; top:12px; max-width:min(420px,56vw); font-size:14px; }
+#ink { right:16px; top:16px; left:auto; background:#ffd56a; }
+#member-badge { right:16px; top:52px; left:auto; text-transform:uppercase; letter-spacing:.06em; }
+#admin-badge { right:16px; top:88px; left:auto; background:#111; color:#ffd56a; text-transform:uppercase; letter-spacing:.08em; font-size:12px; }
 #member-badge[data-tier="plus"] { background:#ffe8a3; }
 #member-badge[data-tier="patron"] { background:#f6d56b; }
-#here { top:86px; font-size:14px; max-width:46vw; }
-#pages { position:absolute; left:16px; top:126px; display:flex; gap:6px; flex-wrap:wrap; }
-#pages button { padding:4px 8px; background:#fffdf6; }
-#mini { position:absolute; left:16px; top:168px; border:2px solid #1b1b1b; background:#f4eed8; }
-#dest { position:absolute; left:16px; top:284px; width:160px; background:rgba(244,238,216,.9); border:2px solid #1b1b1b; padding:6px 8px; font-size:13px; }
-#dest button { display:block; width:100%; text-align:left; margin:3px 0; padding:3px 6px; }
-#roster { position:absolute; left:16px; top:430px; width:160px; max-height:16vh; overflow:auto; background:rgba(244,238,216,.9); border:2px solid #1b1b1b; padding:6px; }
-#roster button { display:block; width:100%; text-align:left; margin:3px 0; padding:3px 6px; }
+#hint, #who, #here, #pages, #mini, #dest, #roster { display:none !important; }
 #friends { display:none; position:absolute; left:16px; bottom:70px; width:220px; max-height:36vh; overflow:auto; background:rgba(244,238,216,.96); border:2px solid #1b1b1b; padding:10px; z-index:3; }
 #friends.show { display:block; }
 #friends button, #social-panel button, #game-panel button, #prompt-box button, #member-box button,
-#admin-box button, #replay-box button, #job-panel button, #house-panel button { display:block; width:100%; text-align:left; margin:4px 0; padding:6px 8px; }
-#chatlog { position:absolute; right:16px; top:128px; width:min(280px,42vw); max-height:24vh; overflow:auto; background:rgba(244,238,216,.9); border:2px solid #1b1b1b; padding:8px 10px; font-size:14px; }
-#shop, #member-box, #social-panel, #game-panel, #admin-box, #replay-box, #job-panel, #house-panel {
+#admin-box button, #replay-box button, #job-panel button, #house-panel button,
+#profile-box button, #party-box button, #mail-box button, #trade-box button { display:block; width:100%; text-align:left; margin:4px 0; padding:6px 8px; }
+#chatlog { position:absolute; right:16px; top:92px; width:min(240px,38vw); max-height:18vh; overflow:auto; background:rgba(244,238,216,.82); border:2px solid #1b1b1b; padding:6px 8px; font-size:13px; }
+#shop, #member-box, #social-panel, #game-panel, #admin-box, #replay-box, #job-panel, #house-panel,
+#profile-box, #party-box, #mail-box, #trade-box {
   display:none; position:absolute; right:16px; bottom:78px; width:min(320px,46vw); max-height:42vh; overflow:auto;
   background:rgba(244,238,216,.96); border:2px solid #1b1b1b; padding:10px; z-index:3;
 }
 #shop.show, #member-box.show, #social-panel.show, #game-panel.show, #admin-box.show, #replay-box.show,
-#job-panel.show, #house-panel.show { display:block; }
+#job-panel.show, #house-panel.show, #profile-box.show, #party-box.show, #mail-box.show, #trade-box.show { display:block; }
+#profile-box label { margin:8px 0 2px; font-size:13px; }
+#profile-box input, #profile-box textarea { width:100%; font:inherit; font-size:14px; padding:6px 8px; border:2px solid #1b1b1b; background:#fffdf6; }
+#profile-box .motto { font-style:italic; margin:6px 0; }
+#profile-box .bio { margin:6px 0; white-space:pre-wrap; }
+#profile-box .row button { width:auto; display:inline-block; }
+#auth-msg[data-kind="warn"] { color:#c23b22; }
+#auth-msg[data-kind="ok"] { color:#2f855a; }
+.auth-tabs { margin:8px 0 4px; }
+.auth-tabs .hat { width:auto; padding:6px 10px; }
 .job-row { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
 .job-row button { width:auto; display:inline-block; min-width:44px; }
 .hop-row button.on, .job-row button.on { background:#ffd56a; }
@@ -102,8 +105,7 @@ canvas#game { display:block; width:100vw; height:100vh; background:#f4eed8; touc
 .offline { color:#888; }
 .pill { display:inline-block; border:1.5px solid #1b1b1b; padding:0 6px; font-size:11px; margin-left:4px; background:#fff; }
 @media (max-width:800px){
-  #mini, #roster, #dest { display:none; }
-  #hint { font-size:12px; max-width:70vw; }
-  #chatlog { max-height:18vh; width:min(220px,46vw); }
+  #status { max-width:58vw; font-size:12px; }
+  #chatlog { max-height:14vh; width:min(200px,42vw); top:86px; }
   .bar button { padding:8px 6px; font-size:13px; }
 }
