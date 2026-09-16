@@ -65,6 +65,7 @@
         if (window.tickRooms) window.tickRooms(dt);
         if (window.tickSync) window.tickSync(dt);
         if (window.tickBits) window.tickBits(dt);
+        if (window.tickFix) window.tickFix(dt);
       };
       tickFun.__nbHooked = true;
     }
