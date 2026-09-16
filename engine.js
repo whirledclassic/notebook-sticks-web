@@ -12,7 +12,7 @@ const ScribbleEngine = {
       seen.add(s.id);
       let p = others.get(s.id);
       if (!p) {
-        p = { id: s.id, name: s.name || "Doodle", color: s.color || "#1b1b1b", hat: s.hat || "none", extra: s.extra || "none", walkStyle: s.walkStyle || "stroll", x: s.x, y: s.y, tx: s.x, ty: s.y, facing: s.facing || 1, walking: !!s.walking, pose: s.pose || "stand", chat: "", chatUntil: 0 };
+        p = { id: s.id, name: s.name || "Doodle", color: s.color || "#1b1b1b", hat: s.hat || "none", extra: s.extra || "none", kit: s.kit || null, walkStyle: s.walkStyle || "stroll", x: s.x, y: s.y, tx: s.x, ty: s.y, facing: s.facing || 1, walking: !!s.walking, pose: s.pose || "stand", chat: "", chatUntil: 0 };
         others.set(s.id, p);
       }
       p.fromX = p.x;
@@ -25,6 +25,7 @@ const ScribbleEngine = {
       p.walking = Boolean(s.walking);
       if (s.pose) p.pose = s.pose;
       if (s.walkStyle) p.walkStyle = s.walkStyle;
+      if (s.kit) p.kit = s.kit;
       if (s.hat) p.hat = s.hat;
       if (s.extra) p.extra = s.extra;
       if (s.color) p.color = s.color;

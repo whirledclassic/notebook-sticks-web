@@ -23,7 +23,7 @@
       "<button data-jump='member-toggle'>Member</button>" +
       "<button data-jump='friends-toggle'>Friends</button>" +
       "<button data-jump='look-toggle'>Look</button>" +
-      "<div class='sub'>/studio /bazaar /park /cafe /dock /where</div>";
+      "<div class='sub'>/studio /bazaar /plaza /library /arcade /beach /where</div>";
   }
   function layout() {
     document.body.classList.toggle("phone", isPhone());

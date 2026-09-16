@@ -1,6 +1,6 @@
 /* Late hooks: chat, gear fx, jobs/houses, maker, moderation. */
 (function () {
-  const LOCAL = { home: 1, street: 1, studio: 1, bazaar: 1, park: 1, cafe: 1, dock: 1 };
+  const LOCAL = { home: 1, street: 1, studio: 1, bazaar: 1, park: 1, cafe: 1, dock: 1, library: 1, arcade: 1, plaza: 1, attic: 1, beach: 1, rooftop: 1, museum: 1 };
   function wrap() {
     if (typeof sendChat === "function" && !sendChat.__nbHooked) {
       const orig = sendChat;
