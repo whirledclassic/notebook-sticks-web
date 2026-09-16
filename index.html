@@ -13,7 +13,7 @@
     <div class="sheet">
       <p class="kicker">a shared sketchbook</p>
       <h1>Notebook Sticks</h1>
-      <p class="sub">Jobs pay pencils. Store takes cards via Stripe.</p>
+      <p class="sub">Buy animated blades at the shop. Wave to slash.</p>
       <canvas id="preview" width="180" height="160"></canvas>
       <label for="name">Name</label>
       <input id="name" type="text" maxlength="16" placeholder="Doodle" autocomplete="off" autofocus/>
@@ -25,14 +25,13 @@
       <label>Hat</label>
       <div class="row" id="hats"></div>
       <button class="play" id="go" type="button">Open the notebook</button>
-      <p class="fine">Store · $4.99 Plus · $9.99 Patron</p>
     </div>
   </div>
   <canvas id="game"></canvas>
   <div id="hud">
     <div id="br-banner"></div>
     <div id="replay-hud"></div>
-    <div id="hint">Tap to walk. Store sells passes. More hides extra buttons on phones.</div>
+    <div id="hint">Shop → Animated gear. Wave or /slash with a blade equipped.</div>
     <div id="who"></div>
     <div id="ink">40 pencils · 3 erasers</div>
     <button id="member-badge" type="button" data-tier="free">free</button>
@@ -75,7 +74,7 @@
       <button id="pose-sit" type="button">Sit</button>
       <button id="pose-dance" type="button">Dance</button>
       <button id="sfx-toggle" type="button">Sound on</button>
-      <input id="chat" maxlength="140" placeholder="/store · /paylink plus https://buy.stripe.com/..."/>
+      <input id="chat" maxlength="140" placeholder="/slash · wave with a blade"/>
     </div>
     <div id="look">
       <b>Change doodle</b>
@@ -101,6 +100,7 @@
   <script src="money.js"></script>
   <script src="pay.js"></script>
   <script src="ui.js"></script>
+  <script src="gear.js"></script>
   <script src="core.js"></script>
   <script src="game.js"></script>
   <script src="patch.js"></script>
