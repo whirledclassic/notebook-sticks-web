@@ -15,6 +15,7 @@
         if (window.coreChat && window.coreChat(text)) return;
         if (window.purposeChat && window.purposeChat(text)) return;
         if (window.houseChat && window.houseChat(text)) return;
+        if (window.toysChat && window.toysChat(text)) return;
         if (window.makerChat && window.makerChat(text)) return;
         if (window.socialChat && window.socialChat(text)) return;
         orig(text);
@@ -50,6 +51,7 @@
         if (window.tickMaker) window.tickMaker(dt);
         if (window.tickNetPlay) window.tickNetPlay(dt);
         if (window.tickFill) window.tickFill(dt);
+        if (window.tickToys) window.tickToys(dt);
       };
       tickFun.__nbHooked = true;
     }
@@ -63,6 +65,7 @@
         if (window.drawGear) window.drawGear(g);
         if (window.drawGearWorld) window.drawGearWorld(g);
         if (window.drawMaker) window.drawMaker(g);
+        if (window.drawToys) window.drawToys(g);
       };
       drawFun.__nbHooked = true;
     }
