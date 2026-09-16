@@ -1,4 +1,4 @@
-/* Late hooks: chat, fx, jobs/houses, moderation. */
+/* Late hooks: chat, gear fx, jobs/houses, moderation. */
 (function () {
   function wrap() {
     if (typeof sendChat === "function" && !sendChat.__nbHooked) {
@@ -10,6 +10,7 @@
         if (window.payChat && window.payChat(text)) return;
         if (window.adminChat && window.adminChat(text)) return;
         if (window.replayChat && window.replayChat(text)) return;
+        if (window.gearChat && window.gearChat(text)) return;
         if (window.coreChat && window.coreChat(text)) return;
         if (window.purposeChat && window.purposeChat(text)) return;
         if (window.socialChat && window.socialChat(text)) return;
@@ -45,6 +46,7 @@
         if (window.tickReplay) window.tickReplay(dt);
         if (window.tickPurpose) window.tickPurpose(dt);
         if (window.tickCore) window.tickCore(dt);
+        if (window.tickGear) window.tickGear(dt);
         if (window.tickFx) window.tickFx(dt);
       };
       tickFun.__nbHooked = true;
@@ -56,6 +58,7 @@
         if (window.drawReplay) window.drawReplay(g);
         if (window.drawPurpose) window.drawPurpose(g);
         if (window.drawCore) window.drawCore(g);
+        if (window.drawGearWorld) window.drawGearWorld(g);
         if (window.drawFx) window.drawFx(g);
       };
       drawFun.__nbHooked = true;
