@@ -2,7 +2,7 @@
 (function () {
   function isPhone() { return innerWidth < 820 || matchMedia("(pointer:coarse)").matches; }
   function closePanels(except) {
-    ["look","friends","member-box","shop","game-panel","admin-box","replay-box","job-panel","house-panel","party-box","mail-box","trade-box","profile-box","store-box","more-box"].forEach(function (id) {
+    ["look","friends","member-box","shop","game-panel","admin-box","replay-box","job-panel","house-panel","party-box","mail-box","trade-box","profile-box","store-box","more-box","studio-box","bazaar-box","where-box"].forEach(function (id) {
       if (id === except) return;
       const el = document.getElementById(id);
       if (el) el.classList.remove("show");
@@ -11,6 +11,9 @@
   function paintMore() {
     const box = document.getElementById("more-box"); if (!box) return;
     box.innerHTML = "<b>More</b>" +
+      "<button data-jump='where-toggle'>Places</button>" +
+      "<button data-jump='studio-toggle'>Studio</button>" +
+      "<button data-jump='bazaar-toggle'>Bazaar</button>" +
       "<button data-jump='jobs-toggle'>Jobs</button>" +
       "<button data-jump='house-toggle'>Home</button>" +
       "<button data-jump='party-toggle'>Party</button>" +
@@ -20,7 +23,7 @@
       "<button data-jump='member-toggle'>Member</button>" +
       "<button data-jump='friends-toggle'>Friends</button>" +
       "<button data-jump='look-toggle'>Look</button>" +
-      "<div class='sub'>Tap the page to walk. Left stick on phones.</div>";
+      "<div class='sub'>/studio /bazaar /park /cafe /dock /where</div>";
   }
   function layout() {
     document.body.classList.toggle("phone", isPhone());
