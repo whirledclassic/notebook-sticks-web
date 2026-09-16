@@ -1,6 +1,6 @@
 /* Slim HUD: one status chip, Map panel, More overflow. */
 (function () {
-  const PANELS = ["look","friends","member-box","shop","game-panel","admin-box","replay-box","job-panel","house-panel","party-box","mail-box","trade-box","profile-box","store-box","more-box","studio-box","bazaar-box","where-box","pack-box","quest-box"];
+  const PANELS = ["look","friends","member-box","shop","game-panel","admin-box","replay-box","job-panel","house-panel","party-box","mail-box","trade-box","profile-box","store-box","more-box","studio-box","bazaar-box","where-box","pack-box","quest-box","club-box","board-box","notes-box"];
 
   function closePanels(except) {
     PANELS.forEach(function (id) {
@@ -23,6 +23,9 @@
       "<button data-jump='bazaar-toggle'>Bazaar</button>" +
       "<button data-jump='friends-toggle'>Friends</button>" +
       "<button data-jump='party-toggle'>Party</button>" +
+      "<button data-jump='club-toggle'>Clubs</button>" +
+      "<button data-jump='board-toggle'>Board</button>" +
+      "<button data-jump='notes-toggle'>Notes</button>" +
       "<button data-jump='pack-toggle'>Pack</button>" +
       "<button data-jump='quest-toggle'>Today</button>" +
       "<button data-jump='mail-toggle'>Mail</button>" +
@@ -46,7 +49,10 @@
     const loot = typeof nearestToy === "function" ? nearestToy() : null;
     const n = 1 + (state.others ? state.others.size : 0);
     const party = window.Core && Core.party && Core.party.length ? " · party " + (Core.party.length + 1) : "";
-    el.textContent = pageLabel() + " · " + n + " here" + party + (loot ? " · pick " + loot.drop.name : spot ? " · " + spot.name : "");
+    const club = window.Clubs && Clubs.mine && Clubs.mine();
+    const tag = club ? " · [" + club.tag + "]" : "";
+    const prop = window.nearestRoomProp ? nearestRoomProp() : null;
+    el.textContent = pageLabel() + " · " + n + " here" + party + tag + (loot ? " · pick " + loot.drop.name : prop ? " · " + prop.label : spot ? " · " + spot.name : "");
     el.title = loot ? "Talk / E picks up " + loot.drop.name : (spot ? (spot.hint || spot.name) : "Walk the page");
   }
 

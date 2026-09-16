@@ -14,12 +14,18 @@
         if (window.gearChat && window.gearChat(text)) return;
         if (window.coreChat && window.coreChat(text)) return;
         if (window.purposeChat && window.purposeChat(text)) return;
+        if (window.clubChat && window.clubChat(text)) return;
+        if (window.realmChat && window.realmChat(text)) return;
+        if (window.roomChat && window.roomChat(text)) return;
         if (window.houseChat && window.houseChat(text)) return;
+        if (window.packChat && window.packChat(text)) return;
+        if (window.playChat && window.playChat(text)) return;
         if (window.toysChat && window.toysChat(text)) return;
         if (window.makerChat && window.makerChat(text)) return;
         if (window.socialChat && window.socialChat(text)) return;
         orig(text);
         if (window.Account && text.charAt(0) !== "/") Account.bump("chats");
+        if (window.purposeNote && text.charAt(0) !== "/") purposeNote("chat");
       };
       sendChat.__nbHooked = true;
     }
@@ -52,6 +58,10 @@
         if (window.tickNetPlay) window.tickNetPlay(dt);
         if (window.tickFill) window.tickFill(dt);
         if (window.tickToys) window.tickToys(dt);
+        if (window.tickPlay) window.tickPlay(dt);
+        if (window.tickPack) window.tickPack(dt);
+        if (window.tickRealm) window.tickRealm(dt);
+        if (window.tickRooms) window.tickRooms(dt);
       };
       tickFun.__nbHooked = true;
     }
@@ -66,6 +76,7 @@
         if (window.drawGearWorld) window.drawGearWorld(g);
         if (window.drawMaker) window.drawMaker(g);
         if (window.drawToys) window.drawToys(g);
+        if (window.drawRooms) window.drawRooms(g);
       };
       drawFun.__nbHooked = true;
     }
