@@ -1,4 +1,4 @@
-/* Animated doodle weapons and auras. Original ink paths (not LPC). */
+/* Animated doodle weapons + CC0 slash sheet (tbbk / OpenGameArt). */
 (function () {
   const GEAR = [
     { id: "sword", name: "Ink blade", cost: 36 },
@@ -9,6 +9,9 @@
     { id: "cape-spark", name: "Spark cape", cost: 44 }
   ];
   const slashes = [];
+  const sheet = new Image();
+  sheet.crossOrigin = "anonymous";
+  sheet.src = "https://opengameart.org/sites/default/files/pixel_art_sword_slash_sprites.png";
   function hue(t, a) { return "hsl(" + (((t * 40) + a) % 360) + " 80% 48%)"; }
   function swing(p, now) {
     const t = now / 1000;
@@ -78,20 +81,31 @@
     drawStick.__gear = true;
   }
   window.tickGear = function () { wrapExtras(); wrapDrawStick(); };
+  window.drawGear = function (g) { window.drawGearWorld(g); };
   window.drawGearWorld = function (g) {
     const now = performance.now();
     for (let i = slashes.length - 1; i >= 0; i--) {
       const s = slashes[i], age = (now - s.t) / 280;
       if (age > 1) { slashes.splice(i, 1); continue; }
-      g.save(); g.translate(s.x, s.y); g.rotate(s.face < 0 ? Math.PI : 0);
-      g.strokeStyle = hue(now / 1000, 20); g.globalAlpha = 1 - age; g.lineWidth = 4 - age * 2;
-      g.beginPath(); g.arc(0, 0, 10 + age * 26, -0.9, 0.9); g.stroke();
-      g.beginPath(); g.strokeStyle = "#fffdf4"; g.arc(4, -4, 6 + age * 14, -0.4, 0.6); g.stroke();
+      g.save(); g.translate(s.x, s.y); g.scale(s.face < 0 ? -1 : 1, 1);
+      if (sheet.complete && sheet.naturalWidth) {
+        const frame = Math.min(8, Math.floor(age * 9));
+        const fw = 64, fh = 47, cols = 3;
+        g.drawImage(sheet, (frame % cols) * fw, Math.floor(frame / cols) * fh, fw, fh, -28, -30, fw, fh);
+      } else {
+        g.strokeStyle = hue(now / 1000, 20); g.globalAlpha = 1 - age; g.lineWidth = 4 - age * 2;
+        g.beginPath(); g.arc(0, 0, 10 + age * 26, -0.9, 0.9); g.stroke();
+      }
       g.restore();
     }
   };
+  window.gearSlash = function () {
+    if (!state || !state.me) return;
+    slashes.push({ x: state.me.x + (state.me.facing || 1) * 28, y: state.me.y - 40, t: performance.now(), face: state.me.facing || 1 });
+    if (typeof setPose === "function") setPose("wave");
+  };
   window.gearChat = function (raw) {
-    if (/^\/(slash|swing)$/i.test(String(raw || "").trim())) { if (typeof setPose === "function") setPose("wave"); return true; }
+    if (/^\/(slash|swing)$/i.test(String(raw || "").trim())) { window.gearSlash(); return true; }
     return false;
   };
   function injectShop() {
@@ -102,7 +116,7 @@
       const box = document.getElementById("shop");
       if (!box || !box.classList.contains("show")) return;
       const have = ((state && state.wallet && state.wallet.extras) || []);
-      box.insertAdjacentHTML("beforeend", "<div class='sub'>Animated gear</div>" + GEAR.map(function (it) {
+      box.insertAdjacentHTML("beforeend", "<div class='sub'>Animated gear · Q or /slash</div>" + GEAR.map(function (it) {
         const own = have.indexOf(it.id) >= 0;
         return "<button data-gear='" + it.id + "' " + (own ? "disabled" : "") + ">" + it.name + " · " + (own ? "yours" : it.cost + " pencils") + "</button>";
       }).join(""));
@@ -126,8 +140,12 @@
   function bind() {
     if (typeof EXTRAS !== "undefined") GEAR.forEach(function (g) { if (EXTRAS.indexOf(g.id) < 0) EXTRAS.push(g.id); });
     injectShop(); wrapExtras(); wrapDrawStick();
+    addEventListener("keydown", function (e) {
+      if (!state || state.chatting) return;
+      if (e.key.toLowerCase() === "q") window.gearSlash();
+    });
   }
-  setInterval(bind, 500);
+  setInterval(function () { wrapExtras(); wrapDrawStick(); injectShop(); }, 500);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bind);
   else bind();
 })();
