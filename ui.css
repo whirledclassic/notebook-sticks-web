@@ -18,6 +18,10 @@ body.phone .desk-only { display:none !important; }
 body.phone #ink { top:max(10px, env(safe-area-inset-top)); right:10px; font-size:13px; }
 body.phone #member-badge { top:46px; right:10px; }
 #more-toggle { background:#ffd56a; }
+.hat.walk {
+  width:auto; min-width:36px; height:auto; padding:6px 8px; font-size:11px; text-transform:lowercase;
+}
+#boot-walks, #look-walks { max-width:420px; }
 @media (max-width:800px){
   #shop, #member-box, #job-panel, #house-panel, #party-box, #mail-box, #trade-box, #profile-box, #store-box, #more-box, #admin-box, #replay-box {
     width:min(360px,94vw); left:3vw; right:3vw; bottom:74px;
