@@ -13,7 +13,7 @@
     <div class="sheet">
       <p class="kicker">a shared sketchbook</p>
       <h1>Notebook Sticks</h1>
-      <p class="sub">Buy animated blades at the shop. Wave to slash.</p>
+      <p class="sub">Living stick figures. Pick a walk — stroll, sneak, swagger, skip.</p>
       <canvas id="preview" width="180" height="160"></canvas>
       <label for="name">Name</label>
       <input id="name" type="text" maxlength="16" placeholder="Doodle" autocomplete="off" autofocus/>
@@ -24,6 +24,8 @@
       <div class="row" id="colors"></div>
       <label>Hat</label>
       <div class="row" id="hats"></div>
+      <label>Walk</label>
+      <div class="row" id="boot-walks"></div>
       <button class="play" id="go" type="button">Open the notebook</button>
     </div>
   </div>
@@ -31,7 +33,7 @@
   <div id="hud">
     <div id="br-banner"></div>
     <div id="replay-hud"></div>
-    <div id="hint">Shop → Animated gear. Wave or /slash with a blade equipped.</div>
+    <div id="hint">Look → Walk styles. /walk sneak · living doodles breathe, blink, and stride.</div>
     <div id="who"></div>
     <div id="ink">40 pencils · 3 erasers</div>
     <button id="member-badge" type="button" data-tier="free">free</button>
@@ -81,6 +83,8 @@
       <div class="row" id="look-colors"></div>
       <div class="row" id="look-hats"></div>
       <div class="row" id="look-extras"></div>
+      <div class="sub">Walk</div>
+      <div class="row" id="look-walks"></div>
     </div>
   </div>
   <script src="sound.js"></script>
@@ -103,6 +107,7 @@
   <script src="gear.js"></script>
   <script src="core.js"></script>
   <script src="game.js"></script>
+  <script src="anim.js"></script>
   <script src="patch.js"></script>
   <script src="hooks.js"></script>
 </body>
