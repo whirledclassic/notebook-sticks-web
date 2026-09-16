@@ -1,6 +1,6 @@
 /* Slim HUD: one status chip, Map panel, More overflow. */
 (function () {
-  const PANELS = ["look","friends","member-box","shop","game-panel","admin-box","replay-box","job-panel","house-panel","party-box","mail-box","trade-box","profile-box","store-box","more-box","studio-box","bazaar-box","where-box"];
+  const PANELS = ["look","friends","member-box","shop","game-panel","admin-box","replay-box","job-panel","house-panel","party-box","mail-box","trade-box","profile-box","store-box","more-box","studio-box","bazaar-box","where-box","pack-box","quest-box"];
 
   function closePanels(except) {
     PANELS.forEach(function (id) {
@@ -16,10 +16,15 @@
     box.innerHTML =
       "<b>More</b>" +
       "<div class='sub'>Everything else lives here.</div>" +
+      "<button data-jump='pose-wave'>Wave</button>" +
+      "<button data-jump='pose-sit'>Sit</button>" +
+      "<button data-jump='pose-dance'>Dance</button>" +
       "<button data-jump='look-toggle'>Look</button>" +
       "<button data-jump='bazaar-toggle'>Bazaar</button>" +
       "<button data-jump='friends-toggle'>Friends</button>" +
       "<button data-jump='party-toggle'>Party</button>" +
+      "<button data-jump='pack-toggle'>Pack</button>" +
+      "<button data-jump='quest-toggle'>Today</button>" +
       "<button data-jump='mail-toggle'>Mail</button>" +
       "<button data-jump='jobs-toggle'>Jobs</button>" +
       "<button data-jump='house-toggle'>Home</button>" +
@@ -38,9 +43,11 @@
     const el = document.getElementById("status");
     if (!el || typeof state === "undefined" || !state || !state.me) return;
     const spot = typeof nearestPlace === "function" ? nearestPlace() : null;
+    const loot = typeof nearestToy === "function" ? nearestToy() : null;
     const n = 1 + (state.others ? state.others.size : 0);
-    el.textContent = pageLabel() + " · " + n + " here" + (spot ? " · " + spot.name : "");
-    el.title = spot ? (spot.hint || spot.name) : "Walk the page";
+    const party = window.Core && Core.party && Core.party.length ? " · party " + (Core.party.length + 1) : "";
+    el.textContent = pageLabel() + " · " + n + " here" + party + (loot ? " · pick " + loot.drop.name : spot ? " · " + spot.name : "");
+    el.title = loot ? "Talk / E picks up " + loot.drop.name : (spot ? (spot.hint || spot.name) : "Walk the page");
   }
 
   function layout() {
