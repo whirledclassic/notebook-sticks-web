@@ -7,6 +7,7 @@
         const text = String(raw || "").trim();
         if (!text) return;
         if (window.memberChat && window.memberChat(text)) return;
+        if (window.payChat && window.payChat(text)) return;
         if (window.adminChat && window.adminChat(text)) return;
         if (window.replayChat && window.replayChat(text)) return;
         if (window.coreChat && window.coreChat(text)) return;
