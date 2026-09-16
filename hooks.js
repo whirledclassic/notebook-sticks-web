@@ -47,7 +47,6 @@
         if (window.tickPurpose) window.tickPurpose(dt);
         if (window.tickCore) window.tickCore(dt);
         if (window.tickGear) window.tickGear(dt);
-        if (window.tickFx) window.tickFx(dt);
       };
       tickFun.__nbHooked = true;
     }
@@ -58,8 +57,8 @@
         if (window.drawReplay) window.drawReplay(g);
         if (window.drawPurpose) window.drawPurpose(g);
         if (window.drawCore) window.drawCore(g);
+        if (window.drawGear) window.drawGear(g);
         if (window.drawGearWorld) window.drawGearWorld(g);
-        if (window.drawFx) window.drawFx(g);
       };
       drawFun.__nbHooked = true;
     }
