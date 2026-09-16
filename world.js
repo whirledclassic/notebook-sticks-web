@@ -30,7 +30,7 @@ function drawKind(g,pl){
 function bakePaper(){
   const off=document.createElement("canvas");off.width=state.world.w;off.height=state.world.h;const g=off.getContext("2d");
   const page=state.me.page;
-  const paper=page==="graph"?"#eef3e6":page==="comic"?"#f7f1dc":page==="pocket"?"#edd9a6":page==="back"?"#ead9b8":page==="shop"?"#f3e6c8":page==="club"?"#f6e2a8":page==="margin"?"#e7eef6":page==="gallery"?"#f3ead4":"#f4eed8";
+  const paper=page==="graph"?"#eef3e6":page==="comic"?"#f7f1dc":page==="pocket"?"#edd9a6":page==="back"?"#ead9b8":page==="shop"?"#f3e6c8":page==="club"?"#f6e2a8":page==="margin"?"#e7eef6":page==="gallery"?"#f3ead4":page==="studio"?"#efe4c8":page==="bazaar"?"#f6d9a8":page==="park"?"#e6efd4":page==="cafe"?"#f3e0c4":page==="dock"?"#dce8ee":page==="library"?"#efe6d2":page==="arcade"?"#ead7f0":page==="plaza"?"#f0e6c8":page==="attic"?"#e8d7b8":page==="beach"?"#efe6c0":page==="rooftop"?"#e4e0ea":page==="museum"?"#efe8d8":"#f4eed8";
   g.fillStyle=paper;g.fillRect(0,0,off.width,off.height);
   if(page==="graph"){
     g.strokeStyle="#c5d4b8";g.lineWidth=1;
