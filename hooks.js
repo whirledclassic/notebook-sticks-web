@@ -14,8 +14,9 @@
         if (window.gearChat && window.gearChat(text)) return;
         if (window.coreChat && window.coreChat(text)) return;
         if (window.purposeChat && window.purposeChat(text)) return;
-        if (window.clubChat && window.clubChat(text)) return;
         if (window.realmChat && window.realmChat(text)) return;
+        if (window.clubChat && window.clubChat(text)) return;
+        if (window.syncChat && window.syncChat(text)) return;
         if (window.roomChat && window.roomChat(text)) return;
         if (window.houseChat && window.houseChat(text)) return;
         if (window.packChat && window.packChat(text)) return;
@@ -62,6 +63,8 @@
         if (window.tickPack) window.tickPack(dt);
         if (window.tickRealm) window.tickRealm(dt);
         if (window.tickRooms) window.tickRooms(dt);
+        if (window.tickSync) window.tickSync(dt);
+        if (window.tickBits) window.tickBits(dt);
       };
       tickFun.__nbHooked = true;
     }
@@ -75,6 +78,7 @@
         if (window.drawGear) window.drawGear(g);
         if (window.drawGearWorld) window.drawGearWorld(g);
         if (window.drawMaker) window.drawMaker(g);
+        if (window.drawBits) window.drawBits(g);
         if (window.drawToys) window.drawToys(g);
         if (window.drawRooms) window.drawRooms(g);
       };
