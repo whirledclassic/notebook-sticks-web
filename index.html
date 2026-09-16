@@ -7,13 +7,14 @@
   <title>Notebook Sticks</title>
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="ui.css"/>
+  <link rel="stylesheet" href="simple.css"/>
 </head>
 <body>
   <div id="boot">
     <div class="sheet">
       <p class="kicker">a shared sketchbook</p>
       <h1>Notebook Sticks</h1>
-      <p class="sub">Walk the pages. Draw gear. Meet other doodles.</p>
+      <p class="sub">Walk. Draw. Talk.</p>
       <canvas id="preview" width="180" height="160"></canvas>
       <label for="name">Name</label>
       <input id="name" type="text" maxlength="16" placeholder="Doodle" autocomplete="username" autofocus/>
@@ -69,13 +70,13 @@
     <div id="notes-box"></div>
     <div id="prompt-box"></div>
     <div class="bar">
-      <button id="where-toggle" type="button">Map</button>
+      <button id="where-toggle" type="button">Go</button>
       <button id="studio-toggle" type="button">Draw</button>
       <button id="profile-toggle" type="button">Me</button>
-      <button id="interact-toggle" type="button">Talk</button>
-      <button id="more-toggle" type="button">More</button>
-      <button id="sfx-toggle" type="button">Sound</button>
-      <input id="chat" maxlength="140" placeholder="say something, or /plaza"/>
+      <button id="more-toggle" type="button">Menu</button>
+      <button id="sfx-toggle" type="button" hidden>Sound</button>
+      <button id="interact-toggle" type="button" hidden>Talk</button>
+      <input id="chat" maxlength="140" placeholder="say something"/>
       <button id="pose-wave" type="button" hidden>Wave</button>
       <button id="pose-sit" type="button" hidden>Sit</button>
       <button id="pose-dance" type="button" hidden>Dance</button>
@@ -101,9 +102,6 @@
       <div class="row" id="look-colors"></div>
       <div class="row" id="look-hats"></div>
       <div class="row" id="look-extras"></div>
-      <div class="sub">Walk</div>
-      <div class="row" id="look-walks"></div>
-      <div class="sub">Full closet is under Draw</div>
     </div>
   </div>
   <script src="sound.js"></script>
