@@ -1,4 +1,4 @@
-/* Late hooks: chat commands, replay ticks, jobs/houses, moderation gates. */
+/* Late hooks: chat, social core, jobs/houses, moderation. */
 (function () {
   function wrap() {
     if (typeof sendChat === "function" && !sendChat.__nbHooked) {
@@ -6,8 +6,10 @@
       window.sendChat = function (raw) {
         const text = String(raw || "").trim();
         if (!text) return;
+        if (window.memberChat && window.memberChat(text)) return;
         if (window.adminChat && window.adminChat(text)) return;
         if (window.replayChat && window.replayChat(text)) return;
+        if (window.coreChat && window.coreChat(text)) return;
         if (window.purposeChat && window.purposeChat(text)) return;
         if (window.socialChat && window.socialChat(text)) return;
         orig(text);
@@ -41,6 +43,7 @@
         origTick(dt);
         if (window.tickReplay) window.tickReplay(dt);
         if (window.tickPurpose) window.tickPurpose(dt);
+        if (window.tickCore) window.tickCore(dt);
       };
       tickFun.__nbHooked = true;
     }
@@ -50,6 +53,7 @@
         origDraw(g);
         if (window.drawReplay) window.drawReplay(g);
         if (window.drawPurpose) window.drawPurpose(g);
+        if (window.drawCore) window.drawCore(g);
       };
       drawFun.__nbHooked = true;
     }
