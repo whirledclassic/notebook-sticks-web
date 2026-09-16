@@ -37,13 +37,14 @@ canvas#game { display:block; width:100vw; height:100vh; background:#f4eed8; touc
 #hud { pointer-events:none; }
 #status, #ink, #chatlog, #look, .bar, #shop, #profile-box, #party-box, #mail-box, #trade-box,
 #member-badge, #member-box, #friends, #social-panel, #game-panel, #prompt-box, #saved-accounts,
-#admin-box, #replay-box, #admin-badge, #br-banner, #replay-hud, #job-panel, #house-panel { pointer-events:auto; }
+#admin-box, #replay-box, #admin-badge, #br-banner, #replay-hud, #job-panel, #house-panel,
+#pack-box, #quest-box { pointer-events:auto; }
 #status, #ink, #member-badge, #admin-badge {
   position:absolute; background:rgba(244,238,216,.92); border:2px solid #1b1b1b; padding:6px 10px;
 }
 #status { left:16px; top:12px; max-width:min(420px,56vw); font-size:14px; }
 #ink { right:16px; top:16px; left:auto; background:#ffd56a; }
-#member-badge { right:16px; top:52px; left:auto; text-transform:uppercase; letter-spacing:.06em; }
+#member-badge { display:none; right:16px; top:52px; left:auto; text-transform:uppercase; letter-spacing:.06em; }
 #admin-badge { right:16px; top:88px; left:auto; background:#111; color:#ffd56a; text-transform:uppercase; letter-spacing:.08em; font-size:12px; }
 #member-badge[data-tier="plus"] { background:#ffe8a3; }
 #member-badge[data-tier="patron"] { background:#f6d56b; }
@@ -52,15 +53,17 @@ canvas#game { display:block; width:100vw; height:100vh; background:#f4eed8; touc
 #friends.show { display:block; }
 #friends button, #social-panel button, #game-panel button, #prompt-box button, #member-box button,
 #admin-box button, #replay-box button, #job-panel button, #house-panel button,
-#profile-box button, #party-box button, #mail-box button, #trade-box button { display:block; width:100%; text-align:left; margin:4px 0; padding:6px 8px; }
-#chatlog { position:absolute; right:16px; top:92px; width:min(240px,38vw); max-height:18vh; overflow:auto; background:rgba(244,238,216,.82); border:2px solid #1b1b1b; padding:6px 8px; font-size:13px; }
+#profile-box button, #party-box button, #mail-box button, #trade-box button,
+#pack-box button, #quest-box button { display:block; width:100%; text-align:left; margin:4px 0; padding:6px 8px; }
+#chatlog { position:absolute; right:16px; top:56px; width:min(200px,28vw); max-height:12vh; overflow:auto; background:rgba(244,238,216,.82); border:2px solid #1b1b1b; padding:6px 8px; font-size:13px; }
 #shop, #member-box, #social-panel, #game-panel, #admin-box, #replay-box, #job-panel, #house-panel,
-#profile-box, #party-box, #mail-box, #trade-box {
+#profile-box, #party-box, #mail-box, #trade-box, #pack-box, #quest-box {
   display:none; position:absolute; right:16px; bottom:78px; width:min(320px,46vw); max-height:42vh; overflow:auto;
   background:rgba(244,238,216,.96); border:2px solid #1b1b1b; padding:10px; z-index:3;
 }
 #shop.show, #member-box.show, #social-panel.show, #game-panel.show, #admin-box.show, #replay-box.show,
-#job-panel.show, #house-panel.show, #profile-box.show, #party-box.show, #mail-box.show, #trade-box.show { display:block; }
+#job-panel.show, #house-panel.show, #profile-box.show, #party-box.show, #mail-box.show, #trade-box.show,
+#pack-box.show, #quest-box.show { display:block; }
 #profile-box label { margin:8px 0 2px; font-size:13px; }
 #profile-box input, #profile-box textarea { width:100%; font:inherit; font-size:14px; padding:6px 8px; border:2px solid #1b1b1b; background:#fffdf6; }
 #profile-box .motto { font-style:italic; margin:6px 0; }
