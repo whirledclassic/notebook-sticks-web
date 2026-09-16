@@ -1,6 +1,5 @@
 /* Late hooks: chat, gear fx, jobs/houses, maker, moderation. */
 (function () {
-  const LOCAL = { home: 1, street: 1, studio: 1, bazaar: 1, park: 1, cafe: 1, dock: 1, library: 1, arcade: 1, plaza: 1, attic: 1, beach: 1, rooftop: 1, museum: 1 };
   function wrap() {
     if (typeof sendChat === "function" && !sendChat.__nbHooked) {
       const orig = sendChat;
@@ -8,6 +7,7 @@
         const text = String(raw || "").trim();
         if (!text) return;
         if (window.memberChat && window.memberChat(text)) return;
+        if (window.accountChat && window.accountChat(text)) return;
         if (window.payChat && window.payChat(text)) return;
         if (window.adminChat && window.adminChat(text)) return;
         if (window.replayChat && window.replayChat(text)) return;
@@ -18,6 +18,7 @@
         if (window.makerChat && window.makerChat(text)) return;
         if (window.socialChat && window.socialChat(text)) return;
         orig(text);
+        if (window.Account && text.charAt(0) !== "/") Account.bump("chats");
       };
       sendChat.__nbHooked = true;
     }
@@ -34,10 +35,6 @@
           if (window.__nbBanner) window.__nbBanner("Muted — chat is blocked.", "warn");
           return;
         }
-        if (msg.type === "page" && LOCAL[msg.page]) {
-          if (window.goLocalPage) window.goLocalPage(msg.page);
-          return;
-        }
         prev(msg);
       };
       net.__nbMod = true;
@@ -51,6 +48,8 @@
         if (window.tickCore) window.tickCore(dt);
         if (window.tickGear) window.tickGear(dt);
         if (window.tickMaker) window.tickMaker(dt);
+        if (window.tickNetPlay) window.tickNetPlay(dt);
+        if (window.tickFill) window.tickFill(dt);
       };
       tickFun.__nbHooked = true;
     }

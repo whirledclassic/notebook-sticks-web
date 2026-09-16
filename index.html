@@ -13,12 +13,12 @@
     <div class="sheet">
       <p class="kicker">a shared sketchbook</p>
       <h1>Notebook Sticks</h1>
-      <p class="sub">Living stick figures. Closet: hat, hold, shirt, legs, shoes. Doodle and sell at the bazaar.</p>
+      <p class="sub">Walk the pages. Draw gear. Meet other doodles.</p>
       <canvas id="preview" width="180" height="160"></canvas>
       <label for="name">Name</label>
-      <input id="name" type="text" maxlength="16" placeholder="Doodle" autocomplete="off" autofocus/>
-      <label for="pin">PIN (optional)</label>
-      <input id="pin" type="password" maxlength="8" placeholder="leave blank" autocomplete="off"/>
+      <input id="name" type="text" maxlength="16" placeholder="Doodle" autocomplete="username" autofocus/>
+      <label for="pin">Password / PIN</label>
+      <input id="pin" type="password" maxlength="64" placeholder="4+ characters" autocomplete="current-password"/>
       <div id="saved-accounts"></div>
       <label>Ink color</label>
       <div class="row" id="colors"></div>
@@ -33,16 +33,17 @@
   <div id="hud">
     <div id="br-banner"></div>
     <div id="replay-hud"></div>
-    <div id="hint">Studio doodles gear. Bazaar sells it. /plaza /library /arcade /beach /where</div>
-    <div id="who"></div>
-    <div id="ink">40 pencils · 3 erasers</div>
+    <div id="status">Cover</div>
+    <div id="hint" hidden>Walk.</div>
+    <div id="who" hidden></div>
+    <div id="here" hidden></div>
+    <div id="ink">40 ink</div>
     <button id="member-badge" type="button" data-tier="free">free</button>
     <button id="admin-badge" type="button" hidden>admin</button>
-    <div id="here">Walk the page.</div>
-    <div id="pages"></div>
-    <canvas id="mini" width="160" height="104"></canvas>
-    <div id="dest"></div>
-    <div id="roster"></div>
+    <div id="pages" hidden></div>
+    <canvas id="mini" width="160" height="104" hidden></canvas>
+    <div id="dest" hidden></div>
+    <div id="roster" hidden></div>
     <div id="chatlog"></div>
     <div id="shop"></div>
     <div id="member-box"></div>
@@ -63,35 +64,36 @@
     <div id="where-box"></div>
     <div id="prompt-box"></div>
     <div class="bar">
-      <button id="look-toggle" type="button">Look</button>
-      <button id="where-toggle" type="button">Places</button>
-      <button id="studio-toggle" type="button">Studio</button>
-      <button id="bazaar-toggle" type="button">Bazaar</button>
-      <button id="friends-toggle" type="button">Friends</button>
-      <button id="party-toggle" type="button">Party</button>
-      <button id="mail-toggle" type="button">Mail</button>
-      <button id="interact-toggle" type="button">E</button>
-      <button id="jobs-toggle" type="button">Jobs</button>
-      <button id="house-toggle" type="button">Home</button>
-      <button id="replay-toggle" type="button">Replay</button>
-      <button id="admin-toggle" type="button" hidden>Admin</button>
-      <button id="store-toggle" type="button">Store</button>
-      <button id="member-toggle" type="button">Member</button>
+      <button id="where-toggle" type="button">Map</button>
+      <button id="studio-toggle" type="button">Draw</button>
+      <button id="profile-toggle" type="button">Me</button>
+      <button id="interact-toggle" type="button">Talk</button>
       <button id="more-toggle" type="button">More</button>
       <button id="pose-wave" type="button">Wave</button>
       <button id="pose-sit" type="button">Sit</button>
       <button id="pose-dance" type="button">Dance</button>
-      <button id="sfx-toggle" type="button">Sound on</button>
-      <input id="chat" maxlength="140" placeholder="/studio · /bazaar · /plaza · /walk sneak"/>
+      <button id="sfx-toggle" type="button">Sound</button>
+      <input id="chat" maxlength="140" placeholder="talk or /studio /plaza /where"/>
+      <button id="look-toggle" type="button" hidden>Look</button>
+      <button id="bazaar-toggle" type="button" hidden>Bazaar</button>
+      <button id="friends-toggle" type="button" hidden>Friends</button>
+      <button id="party-toggle" type="button" hidden>Party</button>
+      <button id="mail-toggle" type="button" hidden>Mail</button>
+      <button id="jobs-toggle" type="button" hidden>Jobs</button>
+      <button id="house-toggle" type="button" hidden>Home</button>
+      <button id="replay-toggle" type="button" hidden>Replay</button>
+      <button id="admin-toggle" type="button" hidden>Admin</button>
+      <button id="store-toggle" type="button" hidden>Store</button>
+      <button id="member-toggle" type="button" hidden>Member</button>
     </div>
     <div id="look">
-      <b>Change doodle</b>
+      <b>Look</b>
       <div class="row" id="look-colors"></div>
       <div class="row" id="look-hats"></div>
       <div class="row" id="look-extras"></div>
       <div class="sub">Walk</div>
       <div class="row" id="look-walks"></div>
-      <div class="sub">Full closet is in Studio</div>
+      <div class="sub">Full closet is under Draw</div>
     </div>
   </div>
   <script src="sound.js"></script>
@@ -99,6 +101,7 @@
   <script src="membership.js"></script>
   <script src="mock-net.js"></script>
   <script src="world.js"></script>
+  <script src="fill.js"></script>
   <script src="engine.js"></script>
   <script src="shop.js"></script>
   <script src="fun.js"></script>
@@ -117,7 +120,7 @@
   <script src="anim.js"></script>
   <script src="walk-ui.js"></script>
   <script src="maker.js"></script>
-  <script src="town.js"></script>
+  <script src="netplay.js"></script>
   <script src="patch.js"></script>
   <script src="hooks.js"></script>
 </body>
