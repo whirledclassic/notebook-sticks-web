@@ -1,0 +1,4 @@
+#club-box,#board-box,#notes-box{pointer-events:auto;display:none;position:absolute;right:16px;bottom:78px;width:min(320px,46vw);max-height:42vh;overflow:auto;background:rgba(244,238,216,.96);border:2px solid #1b1b1b;padding:10px;z-index:3}
+#club-box.show,#board-box.show,#notes-box.show{display:block}
+#club-box button,#board-box button,#notes-box button{display:block;width:100%;text-align:left;margin:4px 0;padding:6px 8px;border:2px solid #1b1b1b;background:#fff;font:inherit;cursor:pointer}
+#club-box input,#board-box input{width:100%;font:inherit;padding:6px 8px;border:2px solid #1b1b1b;background:#fffdf6;margin:4px 0}
