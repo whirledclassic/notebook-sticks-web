@@ -1,0 +1,87 @@
+/* Basic HUD — large type, few boxes, little chrome. */
+html, body {
+  font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+}
+#status {
+  left: 12px;
+  top: 10px;
+  max-width: min(280px, 52vw);
+  font-size: 18px;
+  font-weight: 700;
+  border: 0;
+  background: rgba(244,238,216,.86);
+  padding: 6px 10px;
+  box-shadow: none;
+}
+#ink {
+  right: 12px;
+  top: 10px;
+  font-size: 16px;
+  border: 0;
+  background: rgba(255,213,106,.9);
+  padding: 6px 10px;
+}
+#chatlog,
+#member-badge,
+#admin-badge,
+#hint,
+#who,
+#here,
+#pages,
+#mini,
+#dest,
+#roster,
+#look { display: none !important; }
+#chatlog.has-chat {
+  display: block !important;
+  right: 12px;
+  top: 48px;
+  width: min(220px, 40vw);
+  max-height: 9vh;
+  font-size: 14px;
+  opacity: .85;
+  border: 0;
+  background: rgba(244,238,216,.78);
+  padding: 4px 8px;
+}
+.bar {
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  gap: 6px;
+}
+.bar button {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px 14px;
+  border: 2px solid #1b1b1b;
+  background: #fffdf6;
+}
+#more-toggle { background: #ffd56a; }
+#chat {
+  font-size: 16px;
+  padding: 10px 12px;
+  border: 2px solid #1b1b1b;
+}
+#more-box, #where-box, #studio-box, #profile-box, #prompt-box,
+#friends, #pack-box, #club-box, #board-box, #notes-box,
+#party-box, #mail-box, #bazaar-box, #quest-box, #job-panel,
+#house-panel, #store-box, #member-box, #game-panel {
+  font-size: 16px;
+  border: 2px solid #1b1b1b;
+  max-height: 46vh;
+}
+#more-box b, #where-box b, #studio-box b, #profile-box b { font-size: 18px; }
+#more-box .sub { font-size: 13px; color: #555; margin: 4px 0 8px; }
+#more-box button {
+  font-size: 16px;
+  padding: 8px 10px;
+}
+#prompt-box {
+  font-size: 16px;
+  min-width: min(320px, 86vw);
+}
+#prompt-box .acts button { font-size: 15px; padding: 8px 12px; }
+body.phone #status { font-size: 16px; }
+body.phone .bar button { font-size: 15px; padding: 10px 12px; }
+body.phone #chatlog.has-chat { display: none !important; }
