@@ -1,13 +1,18 @@
 /* Mobile + store overlay */
-#store-box, #more-box, #party-box, #mail-box, #trade-box, #profile-box { pointer-events:auto; }
-#store-box, #more-box {
+#store-box, #more-box, #party-box, #mail-box, #trade-box, #profile-box,
+#studio-box, #bazaar-box, #where-box { pointer-events:auto; }
+#store-box, #more-box, #studio-box, #bazaar-box, #where-box {
   display:none; position:absolute; right:16px; bottom:78px; width:min(340px,92vw); max-height:48vh; overflow:auto;
   background:rgba(244,238,216,.97); border:2px solid #1b1b1b; padding:10px; z-index:4;
 }
-#store-box.show, #more-box.show { display:block; }
+#where-box { left:16px; right:auto; width:min(280px,70vw); }
+#store-box.show, #more-box.show, #studio-box.show, #bazaar-box.show, #where-box.show { display:block; }
 .store-card { border:2px solid #1b1b1b; padding:8px; margin:8px 0; background:#fffdf6; }
 .store-card button { width:100%; margin:4px 0; }
 #paylink-in { width:100%; margin:6px 0; }
+#maker-pad { display:block; width:100%; height:160px; margin:8px 0; border:2px solid #1b1b1b; background:#f4eed8; cursor:crosshair; touch-action:none; }
+#maker-name { width:100%; margin:6px 0; font:inherit; padding:6px 8px; border:2px solid #1b1b1b; background:#fffdf6; }
+#studio-box button.on, #where-box button.on { background:#ffd56a; }
 body.phone #mini, body.phone #roster, body.phone #dest { display:none; }
 body.phone #hint, body.phone #here { max-width:58vw; font-size:12px; }
 body.phone #chatlog { top:auto; bottom:78px; right:12px; width:min(200px,46vw); max-height:16vh; font-size:12px; }
@@ -23,7 +28,7 @@ body.phone #member-badge { top:46px; right:10px; }
 }
 #boot-walks, #look-walks { max-width:420px; }
 @media (max-width:800px){
-  #shop, #member-box, #job-panel, #house-panel, #party-box, #mail-box, #trade-box, #profile-box, #store-box, #more-box, #admin-box, #replay-box {
+  #shop, #member-box, #job-panel, #house-panel, #party-box, #mail-box, #trade-box, #profile-box, #store-box, #more-box, #admin-box, #replay-box, #studio-box, #bazaar-box, #where-box {
     width:min(360px,94vw); left:3vw; right:3vw; bottom:74px;
   }
 }
